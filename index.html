@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Álbum de cartitas para Osma</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#0c0b26">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@400;500;600;700&family=Parisienne&display=swap">
+<style>
+  /* Un hilo de cartitas colgado bajo el cielo nocturno: plateado antes del 13, dorado desde el 13 */
+  :root{
+    --night:#0c0b26; --indigo:#1a1745; --paper:#fff9f0; --ink:#3a3048; --muted:#7a7088;
+    --gold:#ffd77a; --rose:#ff98b3; --lav:#c9bdff; --silver:#bdb7dc; --soft:#d9d2f0;
+    --display:"Cormorant Garamond",Georgia,serif; --body:Montserrat,"Segoe UI",Arial,sans-serif; --hand:Parisienne,"Brush Script MT",cursive;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;color:var(--soft);font-family:var(--body);overflow-x:hidden;min-height:100vh;
+    background:radial-gradient(90% 60% at 80% 0%,#2b2160 0%,transparent 60%),linear-gradient(180deg,var(--night) 0%,var(--indigo) 55%,#251a4a 100%) fixed;background-color:var(--night)}
+  a{color:inherit}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:4px;border-radius:12px}
+  .sky{position:fixed;inset:0;z-index:-1;pointer-events:none}
+  .moon{position:fixed;right:-80px;top:7vh;width:240px;aspect-ratio:1;max-width:60vw;border-radius:50%;z-index:-1;background:radial-gradient(circle,#fffef6 0,#ffeab0 48%,#ffcd80 100%);box-shadow:0 0 60px #ffe59a90,0 0 160px #ffbd7840;opacity:.9}
+  .wrap{width:min(1040px,100%);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0}
+  p{line-height:1.75;margin:0}
+  .eyebrow{color:var(--rose);font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+
+  /* portada */
+  header{padding-block:72px 40px}
+  .kicker{display:inline-flex;gap:9px;align-items:center;padding:9px 16px;border:1px solid #ffffff26;border-radius:999px;background:#ffffff0d;color:var(--lav);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+  header h1{font-size:clamp(3.2rem,10vw,7rem);line-height:.88;letter-spacing:-.045em;margin:24px 0 0;max-width:12ch;color:#fff8ec}
+  header h1 em{font-family:var(--hand);font-style:normal;font-weight:400;color:var(--gold);letter-spacing:0;font-size:.7em;display:block;margin-top:8px;text-shadow:0 0 30px #ffd77a40}
+  header .intro{max-width:56ch;margin-top:22px;font-size:clamp(1rem,2vw,1.12rem);color:#ddd6f3}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+  .stat{padding:14px 18px;border:1px solid #ffffff1f;border-radius:18px;background:#16133ccc;backdrop-filter:blur(10px);min-width:0}
+  .stat strong{display:block;font-family:var(--display);font-size:2.2rem;line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
+  .stat span{display:block;margin-top:6px;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#aaa3ca}
+
+  /* el 13 */
+  .thirteen{margin-block:30px 20px}
+  .t13{position:relative;overflow:hidden;border-radius:34px;border:1px solid #ffd77a55;
+    background:radial-gradient(70% 90% at 15% 50%,#ffd77a26,transparent 60%),linear-gradient(135deg,#231c58,#140f38);
+    display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);gap:clamp(18px,4vw,48px);align-items:center;padding:clamp(26px,5vw,56px);box-shadow:0 30px 90px #0008,inset 0 0 0 1px #ffffff0a}
+  .t13 .num{font-family:var(--display);font-weight:700;font-size:clamp(8rem,26vw,16rem);line-height:.78;color:var(--gold);text-shadow:0 0 60px #ffd77a66;position:relative}
+  .t13 .num:after{content:"♥";position:absolute;right:-.08em;top:-.06em;font-size:.22em;color:var(--rose);text-shadow:0 0 20px #ff98b3}
+  .t13 h2{font-size:clamp(2.2rem,5.4vw,3.8rem);line-height:1;color:#fff8ec;margin-top:10px}
+  .t13 .when{display:block;margin-top:12px;color:var(--lav);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase}
+  .t13 blockquote{margin:22px 0 0;padding-left:16px;border-left:2px solid var(--rose);font-family:var(--display);font-style:italic;font-size:clamp(1.25rem,2.6vw,1.6rem);line-height:1.35;color:#fff3f6}
+  .t13 blockquote span{display:block;font-family:var(--hand);font-style:normal;color:var(--gold);font-size:1.25em;margin-top:6px}
+  .t13 p.small{margin-top:16px;color:#cfc7ea;max-width:52ch}
+  .cta{display:inline-flex;align-items:center;gap:10px;margin-top:22px;text-decoration:none;border-radius:999px;padding:14px 22px;font-weight:700;color:#21183a;background:linear-gradient(120deg,var(--gold),#ffab8f);box-shadow:0 14px 34px #ffb87840;transition:transform .2s}
+  .cta:hover{transform:translateY(-2px)}
+  @media (max-width:640px){.t13{grid-template-columns:1fr}.t13 .num{font-size:9rem}}
+
+  /* línea del tiempo */
+  .album{padding-block:50px 40px}
+  .album-head{max-width:60ch;margin-bottom:36px}
+  .album-head h2{font-size:clamp(2.4rem,6vw,4rem);line-height:1;color:#fff8ec;margin-top:10px}
+  .album-head p{margin-top:12px;color:#bdb5dc}
+  .line{position:relative;display:grid;gap:34px;--x:50%}
+  .line:before{content:"";position:absolute;left:var(--x);top:0;bottom:0;width:2px;translate:-1px 0;
+    background:linear-gradient(180deg,var(--silver) 0%,var(--silver) var(--cut,70%),var(--gold) var(--cut,70%),var(--gold) 100%);opacity:.7}
+  .item{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .item .node{position:absolute;left:var(--x);top:50%;translate:-50% -50%;width:16px;height:16px;border-radius:50%;background:var(--night);border:2px solid var(--c,var(--silver));box-shadow:0 0 14px var(--c,transparent)}
+  .item .date{font-family:var(--display);font-size:1.4rem;color:#fff8ec;line-height:1.1}
+  .item .date small{display:block;font-family:var(--body);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#a49cc6;margin-bottom:6px}
+  .item:nth-child(odd) .date{grid-column:1;text-align:right;grid-row:1}
+  .item:nth-child(odd) .letter{grid-column:2;grid-row:1}
+  .item:nth-child(even) .date{grid-column:2;grid-row:1}
+  .item:nth-child(even) .letter{grid-column:1;grid-row:1}
+
+  .letter{position:relative;display:block;text-decoration:none;color:var(--ink);background:var(--paper);border-radius:6px;padding:0 0 22px;box-shadow:0 22px 50px #0007;transition:transform .3s,box-shadow .3s;transform:rotate(var(--r,0deg));min-width:0}
+  .letter:hover{transform:rotate(0deg) translateY(-6px);box-shadow:0 30px 70px #000a}
+  .letter:before{content:"";position:absolute;left:50%;top:-12px;translate:-50% 0;width:96px;height:24px;background:var(--c);opacity:.85;transform:rotate(-3deg);border-radius:2px;box-shadow:0 2px 6px #0003}
+  .cover{height:118px;border-radius:6px 6px 0 0;display:flex;align-items:flex-end;justify-content:space-between;padding:14px 18px;font-size:2rem;background:var(--g);overflow:hidden;position:relative}
+  .cover .tag{font-family:var(--body);font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:#ffffffd0;color:var(--ink)}
+  .letter .body{padding:18px 22px 0}
+  .letter h3{font-size:1.9rem;line-height:1.05;color:var(--ink)}
+  .letter p{margin-top:10px;font-size:.9rem;color:#5b5068;line-height:1.65}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .chips span{font-size:.68rem;padding:5px 9px;border-radius:999px;background:#f3ecf4;color:#6a5a78}
+  .open{display:inline-block;margin:14px 22px 0;font-weight:700;font-size:.82rem;color:var(--deep,var(--ink));border-bottom:2px solid var(--c);padding-bottom:2px}
+
+  /* hito 13 dentro del hilo */
+  .milestone{position:relative;text-align:center;padding-block:12px}
+  .milestone .star{position:relative;z-index:1;display:inline-grid;place-items:center;width:84px;height:84px;border-radius:50%;background:radial-gradient(circle,#fff3c7,var(--gold) 55%,#e7a94c);color:#3a2a10;font-family:var(--display);font-weight:700;font-size:2.4rem;box-shadow:0 0 0 8px #ffd77a22,0 0 50px #ffd77a90;animation:glow 3s ease-in-out infinite}
+  @keyframes glow{50%{box-shadow:0 0 0 14px #ffd77a14,0 0 70px #ffd77ab0}}
+  .milestone p{margin:14px auto 0;max-width:34ch;position:relative;z-index:1;background:var(--indigo);padding:6px 12px;border-radius:12px}
+  .milestone b{display:block;font-family:var(--hand);font-weight:400;font-size:2rem;color:var(--gold)}
+  .milestone small{color:var(--lav);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
+
+  .new{position:absolute;right:14px;top:14px;z-index:2;font-size:.62rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:#e2486e;padding:6px 10px;border-radius:999px;box-shadow:0 6px 16px #e2486e66;animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{50%{transform:scale(1.07)}}
+
+  @media (max-width:760px){
+    .line{--x:14px}
+    .item{grid-template-columns:1fr;gap:10px;padding-left:40px}
+    .item:nth-child(n) .date,.item:nth-child(n) .letter{grid-column:1;text-align:left}
+    .item:nth-child(n) .date{grid-row:1}
+    .item:nth-child(n) .letter{grid-row:2}
+    .item .node{top:10px;translate:-50% 0}
+    .milestone{text-align:left;padding-left:0}
+    .milestone .star{width:64px;height:64px;font-size:1.9rem;margin-left:-18px}
+    .milestone p{margin-left:0}
+  }
+
+  footer{padding-block:40px 70px;text-align:center;color:#a49cc6;font-size:.82rem}
+  footer .h{display:block;font-family:var(--hand);font-size:2rem;color:var(--rose);margin-bottom:6px}
+  @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas class="sky" id="sky" aria-hidden="true"></canvas>
+<div class="moon" aria-hidden="true"></div>
+
+<header class="wrap">
+  <span class="kicker">✦ Todo lo que he hecho para ti</span>
+  <h1>Nuestro álbum de cartitas<em>para Osma</em></h1>
+  <p class="intro">Aquí guardé cada página que te he hecho, en orden, desde la primera cartita de girasoles hasta la de hoy. Para que cuando quieras volver a alguna, esté todo en un mismo lugar.</p>
+  <div class="stats">
+    <div class="stat"><strong id="days">14</strong><span>días de novios</span></div>
+    <div class="stat"><strong>6</strong><span>cartitas guardadas</span></div>
+    <div class="stat"><strong>13·10</strong><span>donde empezó todo</span></div>
+  </div>
+</header>
+
+<section class="wrap thirteen" aria-labelledby="t13">
+  <div class="t13">
+    <div class="num" aria-hidden="true">13</div>
+    <div>
+      <span class="eyebrow">El día más importante de este álbum</span>
+      <h2 id="t13">Aquí empezó todo</h2>
+      <span class="when">Martes 13 de octubre de 2026</span>
+      <blockquote>“Osma, ¿quieres ser mi novia?”<span>¡Dijiste que sí!</span></blockquote>
+      <p class="small">Yo lo tenía pensado para el viernes, pero tú dijiste “adelantamos todo para yaaaaaa”. Desde ese día somos tú y yo, un día a la vez.</p>
+      <a class="cta" href="cartas/cuenta-regresiva/index.html">Revivir ese día →</a>
+    </div>
+  </div>
+</section>
+
+<section class="wrap album" aria-labelledby="talbum">
+  <div class="album-head">
+    <span class="eyebrow">El álbum</span>
+    <h2 id="talbum">Cada cartita, en su fecha</h2>
+    <p>El hilo es plateado hasta el 13 y dorado desde que eres mi novia. Toca cualquier carta para abrirla tal cual te la mandé.</p>
+  </div>
+
+  <div class="line" id="line">
+    <div class="item" style="--c:#f6b52b">
+      <span class="node"></span>
+      <div class="date"><small>Cartita 1</small>23 de septiembre</div>
+      <a class="letter" href="cartas/carta-osma/index.html" style="--c:#f6b52b;--r:-1.2deg;--g:linear-gradient(135deg,#ffe28a,#f6b52b 60%,#e58f2b);--deep:#9a5a10">
+        <div class="cover"><span>🌻</span><span class="tag">Girasoles</span></div>
+        <div class="body">
+          <h3>Para alguien muy especial</h3>
+          <p>Todo lo bonito que veo en ti: inteligente, valiente y la más bonita. Y los girasoles que voltearían a verte.</p>
+          <div class="chips"><span>Mía y Koda</span><span>Listones de flores</span></div>
+        </div>
+        <span class="open">Abrir cartita →</span>
+      </a>
+    </div>
+
+    <div class="item" style="--c:#b9a7ff">
+      <span class="node"></span>
+      <div class="date"><small>Cartita 2</small>30 de septiembre</div>
+      <a class="letter" href="cartas/carta-examen/index.html" style="--c:#b9a7ff;--r:1deg;--g:linear-gradient(135deg,#d9cfff,#9f8cf0 60%,#7765c7);--deep:#5a48a8">
+        <div class="cover"><span>✨</span><span class="tag">Tu examen</span></div>
+        <div class="body">
+          <h3>Hoy confía en ti, preciosa</h3>
+          <p>Un poquito de calma antes de Comunicación Digital: tres cosas para recordar y tu pequeño protocolo para los nervios.</p>
+          <div class="chips"><span>Respira</span><span>Mía votó por ti</span></div>
+        </div>
+        <span class="open">Abrir cartita →</span>
+      </a>
+    </div>
+
+    <div class="item" style="--c:#d95b88">
+      <span class="node"></span>
+      <div class="date"><small>Cartita 3</small>2 de octubre</div>
+      <a class="letter" href="cartas/para-osma/index.html" style="--c:#d95b88;--r:-.8deg;--g:linear-gradient(135deg,#ffd3e1,#ee8fb0 55%,#d95b88);--deep:#722842">
+        <div class="cover"><span>🌸</span><span class="tag">Mil razones</span></div>
+        <div class="body">
+          <h3>Para Osma, con todo mi cariño</h3>
+          <p>Las razones por las que eres tan bonita, con “Mil Razones” de DannyLux de fondo y el motivo de las flores.</p>
+          <div class="chips"><span>Mia, Koda y Luna</span><span>Canción</span></div>
+        </div>
+        <span class="open">Abrir cartita →</span>
+      </a>
+    </div>
+
+    <div class="item" style="--c:#bd8b45">
+      <span class="node"></span>
+      <div class="date"><small>Cartita 4</small>5 de octubre</div>
+      <a class="letter" href="cartas/un-dia-especial/index.html" style="--c:#bd8b45;--r:1.3deg;--g:linear-gradient(135deg,#f7eadb,#e5c7b8 50%,#bd6f70);--deep:#8a4e4f">
+        <div class="cover"><span>🪷</span><span class="tag">Lirios</span></div>
+        <div class="body">
+          <h3>La nota que faltó en tus lirios</h3>
+          <p>La notita que debía llevar tu ramo, el proyecto de inglés que hicimos juntos y un lirio que florece cuando lo tocas.</p>
+          <div class="chips"><span>Te escucho</span><span>Te admiro</span><span>Te quiero</span></div>
+        </div>
+        <span class="open">Abrir cartita →</span>
+      </a>
+    </div>
+
+    <div class="item" style="--c:#ffd77a">
+      <span class="node"></span>
+      <div class="date"><small>Cartita 5 · del 12 al 23</small>Octubre, un detalle cada día</div>
+      <a class="letter" href="cartas/cuenta-regresiva/index.html" style="--c:#ffd77a;--r:-1deg;--g:linear-gradient(135deg,#2a2163,#17133d 60%,#0b0a26);--deep:#6e5cce">
+        <div class="cover" style="color:#ffd77a"><span>🌙</span><span class="tag">Cuenta regresiva</span></div>
+        <div class="body">
+          <h3>Un detalle para ti, Osma</h3>
+          <p>Ocho capítulos, uno por día: espacio sideral, la gran pregunta del martes 13, las luces de gracias, el pajarito, la credencial oficial y tu sorpresa.</p>
+          <div class="chips"><span>★ Martes 13</span><span>Día del Médico</span><span>Futura paramédica</span></div>
+        </div>
+        <span class="open">Abrir cartita →</span>
+      </a>
+    </div>
+
+    <div class="milestone" id="milestone">
+      <span class="star" aria-hidden="true">13</span>
+      <p><small>13 · 10 · 2026</small><b>Y me dijiste que sí</b></p>
+    </div>
+
+    <div class="item" style="--c:#ff98b3">
+      <span class="node"></span>
+      <div class="date"><small>Cartita 6 · la más nueva</small>27 de octubre</div>
+      <a class="letter" href="cartas/perdoname/index.html" style="--c:#ff98b3;--r:.8deg;--g:linear-gradient(135deg,#4a2f6b,#2c2050 55%,#ff9bb6 140%);--deep:#8a3a5c">
+        <span class="new">Nueva · hoy</span>
+        <div class="cover" style="color:#ffe3ea"><span>🤍</span><span class="tag">Perdóname</span></div>
+        <div class="body">
+          <h3>Perdóname, amor</h3>
+          <p>Por la broma de hoy. Cinco pasitos para que la lluvia se vuelva cielo de estrellas: un sello, nubecitas, cupones, un corazón reparado con oro y un tratado de paz.</p>
+          <div class="chips"><span>Cupones de perdón</span><span>Kintsugi</span><span>Tratado de paz</span></div>
+        </div>
+        <span class="open">Abrir cartita →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <span class="h">y las que faltan</span>
+  Este álbum sigue abierto. Cada cartita nueva que te haga va a quedar guardada aquí.
+</footer>
+
+<script>
+(()=>{
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const c=document.getElementById('sky'),x=c.getContext('2d');let stars=[];
+  function size(){const d=devicePixelRatio||1;c.width=innerWidth*d;c.height=innerHeight*d;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';
+    stars=Array.from({length:Math.round(innerWidth*innerHeight/5000)},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:(Math.random()*1.4+.3)*d,p:Math.random()*6.28,s:.4+Math.random()*1.6}));}
+  function draw(t){x.clearRect(0,0,c.width,c.height);for(const s of stars){x.globalAlpha=reduce?.7:.3+.5*Math.abs(Math.sin(s.p+t/1100*s.s));x.fillStyle='#fff';x.beginPath();x.arc(s.x,s.y,s.r,0,6.28);x.fill();}if(!reduce)requestAnimationFrame(draw);}
+  size();addEventListener('resize',()=>{size();cut();});requestAnimationFrame(draw);
+
+  /* días de novios desde el 13 de octubre de 2026 */
+  const start=new Date(2026,9,13),today=new Date();today.setHours(0,0,0,0);
+  document.getElementById('days').textContent=Math.max(0,Math.round((today-start)/864e5));
+
+  /* el hilo se vuelve dorado exactamente en la estrella del 13 */
+  function cut(){const l=document.getElementById('line'),m=document.getElementById('milestone').querySelector('.star');
+    const y=m.getBoundingClientRect().top+m.offsetHeight/2-l.getBoundingClientRect().top;l.style.setProperty('--cut',(y/l.offsetHeight*100).toFixed(2)+'%');}
+  cut();document.fonts&&document.fonts.ready.then(cut);
+})();
+</script>
+</body>
+</html>

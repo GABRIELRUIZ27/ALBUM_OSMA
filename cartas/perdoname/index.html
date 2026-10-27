@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2b2840">
+<title>Perdóname, amor 🤍</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@400;500;600;700;800&family=Parisienne&display=swap">
+<style>
+  /* Un cielo que empieza lloviendo y se despeja paso a paso: lluvia → nubes → atardecer → oro → noche de estrellas */
+  :root{
+    --paper:#fffaf4; --ink:#3b2f4a; --muted:#7d7290; --rose:#ff9bb6; --wine:#8a3a5c; --blush:#ffe6ee;
+    --gold:#ffd57a; --lav:#cdbfff; --glass:rgba(255,255,255,.08); --line:rgba(255,255,255,.16);
+    --display:"Cormorant Garamond",Georgia,serif; --body:Montserrat,"Segoe UI",Arial,sans-serif; --hand:Parisienne,"Brush Script MT",cursive;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  html{scroll-behavior:smooth}
+  body{margin:0;min-height:100vh;color:var(--blush);font-family:var(--body);overflow-x:hidden;background:#2b2840}
+  button{font:inherit;cursor:pointer;color:inherit}
+  button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+
+  /* ===== cielo por etapas ===== */
+  .sky{position:fixed;inset:0;z-index:-3;pointer-events:none}
+  .sky div{position:absolute;inset:0;opacity:0;transition:opacity 1.6s ease}
+  .s0{background:linear-gradient(180deg,#3a3852 0%,#2b2840 55%,#1f1d30 100%)}
+  .s1{background:linear-gradient(180deg,#4b4170 0%,#3a2f5c 55%,#241d3d 100%)}
+  .s2{background:linear-gradient(180deg,#5a3d7a 0%,#9b5a86 50%,#e48f8c 100%)}
+  .s3{background:linear-gradient(180deg,#4a2f6b 0%,#c86f86 45%,#ffc27d 100%)}
+  .s4{background:radial-gradient(90% 60% at 50% 0%,#3c2a78 0%,#17133d 55%,#0b0a24 100%)}
+  body[data-stage="0"] .s0,body[data-stage="1"] .s1,body[data-stage="2"] .s2,body[data-stage="3"] .s3,body[data-stage="4"] .s4,body[data-stage="5"] .s4{opacity:1}
+  #fx{position:fixed;inset:0;z-index:-2;pointer-events:none}
+  .petals{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:60}
+  .petal{position:absolute;top:-30px;width:14px;height:20px;border-radius:80% 20% 75% 25%;background:linear-gradient(145deg,#ffc2d2,#e07a9c);animation:fall var(--t) linear forwards}
+  .petal.g{background:linear-gradient(145deg,#fff1b8,#f3b444);border-radius:50%;width:9px;height:9px}
+  @keyframes fall{to{transform:translate3d(var(--dx),110vh,0) rotate(640deg)}}
+
+  .wrap{width:min(720px,100%);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+  /* ===== barra de progreso ===== */
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:41;background:#1d1a2ecc}
+  .progress{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:#1d1a2e99;border-bottom:1px solid var(--line)}
+  .progress .wrap{display:flex;align-items:center;gap:12px;padding-block:10px}
+  .progress .lbl{font-size:.66rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--lav);white-space:nowrap}
+  .dots{display:flex;gap:6px;flex:1;min-width:0}
+  .dots i{flex:1;height:6px;border-radius:9px;background:#ffffff1f;transition:background .5s}
+  .dots i.on{background:linear-gradient(90deg,var(--rose),var(--gold))}
+
+  /* ===== portada con corazoncito ===== */
+  header{padding-block:44px 10px;text-align:center}
+  .date{display:inline-block;padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:var(--glass);color:var(--lav);font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+  .mascot{position:relative;width:170px;height:190px;margin:22px auto 6px}
+  .mascot svg.heart{position:absolute;left:15px;bottom:0;width:140px;filter:drop-shadow(0 16px 30px #0006);animation:bob 3.2s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-6px)}}
+  .cloud{position:absolute;left:50%;top:0;translate:-50% 0;width:120px;transition:opacity 1.2s,transform 1.2s}
+  .cloud .drop{animation:drip 1s linear infinite}
+  .cloud .drop:nth-of-type(2){animation-delay:.33s}.cloud .drop:nth-of-type(3){animation-delay:.66s}
+  @keyframes drip{from{transform:translateY(0);opacity:1}to{transform:translateY(26px);opacity:0}}
+  .sparkle{position:absolute;color:var(--gold);font-size:1.2rem;opacity:0;transition:opacity 1s}
+  body[data-mood="love"] .sparkle{opacity:1;animation:tw 1.6s ease-in-out infinite}
+  @keyframes tw{50%{transform:scale(.6);opacity:.4}}
+  h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0}
+  header h1{font-size:clamp(3.2rem,12vw,5.8rem);line-height:.9;letter-spacing:-.035em}
+  header h1 em{display:block;font-family:var(--hand);font-style:normal;font-weight:400;font-size:.55em;color:var(--rose);letter-spacing:0;margin-top:8px}
+  .lead{color:#e3dcf3;line-height:1.8;font-size:clamp(1rem,2.2vw,1.1rem);max-width:54ch;margin:16px auto 0}
+  .mood{margin-top:14px;font-size:.78rem;color:var(--lav);letter-spacing:.06em}
+  .mood b{color:var(--gold)}
+
+  /* ===== capítulos ===== */
+  .ch{padding-block:40px}
+  .card{position:relative;border:1px solid var(--line);border-radius:30px;background:linear-gradient(155deg,#ffffff14,#ffffff06);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:clamp(22px,5vw,42px);box-shadow:0 30px 80px #0005;overflow:hidden}
+  .tag{display:inline-flex;gap:8px;align-items:center;color:var(--rose);font-size:.7rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+  .tag span{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--rose);color:#2b1a2f;font-size:.72rem;letter-spacing:0}
+  .ch h2{font-size:clamp(2.1rem,6vw,3.1rem);line-height:1.02;margin-top:10px;color:#fff8f2}
+  .ch p.sub{color:#ddd5ee;line-height:1.75;margin:10px 0 0;max-width:52ch}
+  .locked .card{filter:grayscale(.7) blur(.3px);opacity:.42;pointer-events:none;user-select:none}
+  .locked .card::after{content:"🔒  Termina el paso anterior";position:absolute;inset:0;display:grid;place-items:center;background:#14122299;font-weight:700;font-size:.85rem;letter-spacing:.06em;color:#fff}
+  .ch.reveal .card{animation:rise .8s ease both}
+  @keyframes rise{from{opacity:.2;transform:translateY(26px)}}
+  .btn{border:0;border-radius:999px;padding:14px 24px;font-weight:700;color:#2a1a33;background:linear-gradient(120deg,var(--gold),var(--rose));box-shadow:0 14px 34px #ff9bb640;transition:transform .2s}
+  .btn:active{transform:scale(.96)}
+  .btn:disabled{opacity:.45;cursor:default;box-shadow:none}
+  .ghost{border:1px solid #ffffff40;border-radius:999px;padding:13px 22px;background:#ffffff10}
+  .done-note{margin-top:18px;font-family:var(--hand);font-size:1.7rem;color:var(--gold);min-height:1.2em}
+
+  /* 1 · sobre con sello: mantener presionado */
+  .seal-stage{display:grid;place-items:center;gap:14px;margin-top:26px}
+  .env{position:relative;width:min(330px,100%);aspect-ratio:1.5}
+  .env .b{position:absolute;inset:0;border-radius:10px;background:linear-gradient(160deg,#f6d6e0,#e9b3c5);box-shadow:0 22px 50px #0006}
+  .env .f{position:absolute;inset:0;border-radius:10px;background:linear-gradient(135deg,transparent 49.5%,#f1c4d3 50%) left/50% 100% no-repeat,linear-gradient(225deg,transparent 49.5%,#f1c4d3 50%) right/50% 100% no-repeat}
+  .env .fl{position:absolute;left:0;right:0;top:0;height:62%;transform-origin:top;clip-path:polygon(0 0,100% 0,50% 100%);background:linear-gradient(180deg,#fae2ea,#eab0c3);z-index:2;transition:transform .8s ease,opacity .4s .5s}
+  .env.open .fl{transform:rotateX(180deg);opacity:0}
+  .hold{position:absolute;left:50%;top:56%;translate:-50% -50%;z-index:3;width:84px;height:84px;border:0;border-radius:50%;padding:0;background:none;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+  .hold svg{position:absolute;inset:0;rotate:-90deg}
+  .hold .wax{position:absolute;inset:12px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#d0628a,var(--wine));color:var(--blush);font-family:var(--hand);font-size:1.7rem;box-shadow:0 6px 16px #0005;transition:transform .2s}
+  .hold:active .wax{transform:scale(.92)}
+  .env.open .hold{opacity:0;pointer-events:none;transition:opacity .3s}
+  .hint{font-size:.8rem;color:#c9bfe0}
+  .letter{margin-top:24px;background:var(--paper);color:var(--ink);border-radius:8px;padding:clamp(24px,6vw,46px);box-shadow:0 24px 60px #0007;
+    background-image:repeating-linear-gradient(transparent 0 31px,#efe2e8 31px 32px);background-position:0 20px;transform-origin:top;animation:unfold .9s ease both}
+  @keyframes unfold{from{transform:scaleY(.2);opacity:0}}
+  .letter .to{font-family:var(--hand);font-size:2.1rem;color:var(--wine);margin:0 0 6px}
+  .letter p{margin:0 0 16px;line-height:2}
+  .letter strong{color:var(--wine)}
+  .letter .sign{font-family:var(--hand);font-size:1.9rem;color:var(--wine);text-align:right;margin:0}
+
+  /* 2 · nubecitas */
+  .cloudbox{position:relative;height:300px;margin-top:22px;border-radius:22px;background:linear-gradient(180deg,#ffffff10,#ffffff04);overflow:hidden;border:1px solid var(--line)}
+  .sun{position:absolute;left:50%;bottom:-120px;translate:-50% 0;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,#fff6cf,#ffd57a 55%,#ffb35c);box-shadow:0 0 60px #ffd57ab0;transition:bottom 1.4s cubic-bezier(.2,.9,.3,1.1)}
+  .cloudbox.clear .sun{bottom:40px}
+  .sunmsg{position:absolute;left:0;right:0;bottom:200px;text-align:center;font-family:var(--hand);font-size:1.9rem;color:var(--gold);opacity:0;transition:opacity 1s .8s}
+  .cloudbox.clear .sunmsg{opacity:1}
+  .nube{position:absolute;border:0;padding:0;background:none;width:96px;height:58px;animation:drift var(--d,6s) ease-in-out infinite alternate;transition:transform .35s,opacity .35s}
+  .nube svg{width:100%;height:100%;filter:drop-shadow(0 6px 10px #0004)}
+  .nube small{position:absolute;inset:0;display:grid;place-items:center;padding-top:8px;font-size:.62rem;font-weight:800;letter-spacing:.06em;color:#4a4560;text-transform:uppercase}
+  .nube.pop{transform:scale(1.6);opacity:0;pointer-events:none}
+  @keyframes drift{to{translate:var(--mx,14px) 0}}
+  .said{margin-top:16px;min-height:3.2em;font-family:var(--display);font-style:italic;font-size:1.35rem;line-height:1.4;color:#fff5f8}
+  .count{font-size:.75rem;color:var(--lav);letter-spacing:.1em;text-transform:uppercase}
+
+  /* 3 · cupones */
+  .coupons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
+  .coupon{position:relative;min-height:150px;border-radius:16px;background:var(--paper);color:var(--ink);overflow:hidden;box-shadow:0 14px 30px #0004}
+  .coupon .in{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:16px 16px 16px 26px;border-left:8px dashed #f3d3de}
+  .coupon .in small{font-size:.6rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#d0628a}
+  .coupon .in b{font-family:var(--display);font-size:1.35rem;line-height:1.1;margin-top:4px}
+  .coupon .in span{font-size:.75rem;color:var(--muted);margin-top:6px;line-height:1.45}
+  .coupon canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab;transition:opacity .6s}
+  .coupon.got canvas{opacity:0;pointer-events:none}
+  .coupon .ok{position:absolute;right:10px;top:10px;font-size:.6rem;font-weight:800;padding:4px 8px;border-radius:99px;background:#e2486e;color:#fff;opacity:0;transform:scale(.6);transition:.4s}
+  .coupon.got .ok{opacity:1;transform:none}
+  @media (max-width:480px){.coupons{grid-template-columns:1fr}}
+
+  /* 4 · kintsugi */
+  .kin{position:relative;height:280px;margin-top:20px;border-radius:22px;border:1px solid var(--line);background:radial-gradient(60% 70% at 50% 55%,#ffffff12,transparent 70%);overflow:hidden;touch-action:none}
+  .half{position:absolute;left:50%;top:50%;width:200px;height:180px;margin:-90px 0 0 -100px;max-width:none}
+  .half.r{cursor:grab;touch-action:none;transition:filter .3s}
+  .half.r.dragging{cursor:grabbing;filter:drop-shadow(0 0 18px #ff9bb6aa)}
+  .half.r.snap{transition:transform .35s cubic-bezier(.2,.9,.3,1.3)}
+  .gold{position:absolute;left:50%;top:50%;width:200px;height:180px;margin:-90px 0 0 -100px;pointer-events:none}
+  .gold polyline{stroke-dasharray:240;stroke-dashoffset:240}
+  .kin.joined .gold polyline{transition:stroke-dashoffset 1.8s ease .3s;stroke-dashoffset:0}
+  .kin.joined .glow{opacity:1}
+  .glow{position:absolute;left:50%;top:50%;width:260px;height:260px;margin:-130px 0 0 -130px;border-radius:50%;background:radial-gradient(circle,#ffd57a55,transparent 65%);opacity:0;transition:opacity 1.6s .8s;pointer-events:none}
+  .kinhint{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-size:.75rem;color:#cfc4e6;pointer-events:none;transition:opacity .4s}
+  .kin.joined .kinhint{opacity:0}
+  .kintext{margin-top:18px;line-height:1.8;color:#f3ecf9;display:none}
+  .kintext.show{display:block;animation:rise .8s ease both}
+  .kintext em{font-family:var(--display);font-size:1.25rem;color:var(--gold)}
+
+  /* 5 · pregunta + tratado */
+  .ask{text-align:center}
+  .ask h2{font-size:clamp(2.8rem,9vw,4.4rem)}
+  .choices{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px}
+  .choices .btn{font-size:1.05rem;padding:16px 30px}
+  .treaty{margin-top:26px;text-align:left;background:var(--paper);color:var(--ink);border-radius:14px;padding:clamp(22px,5vw,38px);box-shadow:0 24px 60px #0007;position:relative;overflow:hidden;animation:unfold .9s ease both}
+  .treaty h3{font-size:clamp(1.8rem,5vw,2.4rem);text-align:center;color:var(--wine)}
+  .treaty .ttl{text-align:center;font-size:.66rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#d0628a}
+  .treaty ol{margin:18px 0 0;padding-left:22px;line-height:1.75;font-size:.92rem}
+  .treaty ol li{margin-bottom:6px}
+  .sigs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:22px;align-items:end}
+  .sig small{display:block;font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:6px;border-top:1px solid #d8c8d2;padding-top:6px}
+  .sig .his{font-family:var(--hand);font-size:2.2rem;color:var(--wine);height:90px;display:flex;align-items:flex-end;padding-bottom:4px}
+  .pad{position:relative;height:90px;border-radius:10px;background:#fff2f6;border:1.5px dashed #e8a9bf}
+  .pad canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+  .pad .ph{position:absolute;inset:0;display:grid;place-items:center;font-size:.75rem;color:#c58aa0;pointer-events:none}
+  .treaty .row{display:flex;justify-content:center;gap:10px;margin-top:18px;flex-wrap:wrap}
+  .treaty .ghost{color:var(--ink);border-color:#d8c8d2;background:#fff}
+  .stamp{position:absolute;right:8%;bottom:96px;padding:10px 16px;border:4px double #d23c66;color:#d23c66;border-radius:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:.85rem;text-align:center;line-height:1.3;transform:rotate(-14deg) scale(3);opacity:0;pointer-events:none;background:#fff8faee}
+  .stamp.on{animation:stamp .5s cubic-bezier(.3,1.6,.5,1) forwards}
+  @keyframes stamp{to{transform:rotate(-14deg) scale(1);opacity:.95}}
+  .finale{margin-top:30px;text-align:center}
+  .finale .big{font-family:var(--hand);font-size:clamp(2.4rem,8vw,3.4rem);color:var(--gold);text-shadow:0 0 30px #ffd57a66}
+  .finale p{line-height:1.8;color:#eee6fb;max-width:46ch;margin:10px auto 0}
+  .wait{margin-top:24px}
+  .wait p{font-family:var(--display);font-style:italic;font-size:1.4rem;line-height:1.45;max-width:32ch;margin:0 auto}
+  .wait .hugs{margin-top:12px;color:var(--lav);font-size:.85rem;min-height:1.2em}
+  .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));translate:-50% 0;z-index:70;padding:12px 18px;border-radius:999px;background:#fffaf4;color:var(--ink);font-weight:700;font-size:.85rem;box-shadow:0 14px 34px #0006;opacity:0;transform:translateY(20px);transition:.35s;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
+  .toast.on{opacity:1;transform:none}
+
+  footer{text-align:center;padding-block:30px 70px;color:#b9aed3;font-size:.8rem}
+  footer .h{font-family:var(--hand);font-size:1.7rem;color:var(--rose);display:block;margin-bottom:4px}
+  footer a{color:var(--lav)}
+  @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body data-stage="0" data-mood="sad">
+<div class="sky" aria-hidden="true"><div class="s0"></div><div class="s1"></div><div class="s2"></div><div class="s3"></div><div class="s4"></div></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="petals" id="petals" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<nav class="progress" aria-label="Progreso">
+  <div class="wrap">
+    <span class="lbl" id="plbl">Paso 1 de 5</span>
+    <div class="dots" id="dots"><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+</nav>
+
+<header class="wrap">
+  <span class="date">27 de octubre · para Osma</span>
+  <div class="mascot" aria-hidden="true">
+    <svg class="cloud" id="mCloud" viewBox="0 0 120 70">
+      <path d="M28 46a18 18 0 0 1 4-35 24 24 0 0 1 44 4 16 16 0 0 1 16 31z" fill="#8e88a8"/>
+      <rect class="drop" x="40" y="48" width="3" height="10" rx="1.5" fill="#a9c6ff"/>
+      <rect class="drop" x="60" y="50" width="3" height="10" rx="1.5" fill="#a9c6ff"/>
+      <rect class="drop" x="80" y="48" width="3" height="10" rx="1.5" fill="#a9c6ff"/>
+    </svg>
+    <span class="sparkle" style="left:4px;top:40px">✦</span><span class="sparkle" style="right:2px;top:30px;animation-delay:.5s">✧</span><span class="sparkle" style="left:50%;top:6px;animation-delay:.9s">✦</span>
+    <svg class="heart" viewBox="0 0 200 180">
+      <defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb3c7"/><stop offset="1" stop-color="#e2557e"/></linearGradient></defs>
+      <path d="M100 170C40 125 0 95 0 55 0 22 25 0 55 0c20 0 37 12 45 28C108 12 125 0 145 0c30 0 55 22 55 55 0 40-40 70-100 115z" fill="url(#hg)"/>
+      <ellipse cx="60" cy="50" rx="16" ry="9" fill="#fff" opacity=".35"/>
+      <g id="eyes" fill="#3b1f2e"><ellipse cx="72" cy="80" rx="7" ry="8"/><ellipse cx="128" cy="80" rx="7" ry="8"/></g>
+      <path id="brow" d="M60 64l20 6M140 64l-20 6" stroke="#3b1f2e" stroke-width="4" stroke-linecap="round"/>
+      <path id="tear" d="M130 92c4 8 6 12 6 15a6 6 0 0 1-12 0c0-3 2-7 6-15z" fill="#a9d4ff"/>
+      <g id="cheeks" fill="#ff7ea0" opacity="0"><ellipse cx="56" cy="98" rx="10" ry="6"/><ellipse cx="144" cy="98" rx="10" ry="6"/></g>
+      <path id="mouth" d="M84 116q16-12 32 0" stroke="#3b1f2e" stroke-width="5" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <h1>Perdóname<em>mi amor bonito</em></h1>
+  <p class="lead">Te pedí perdón y me dijiste “Nop”, y está bien: te mereces un perdón bonito. Hoy hay una nubecita sobre tu corazón y, aunque estemos en estados diferentes, quiero ayudarte a quitarla. Son cinco pasitos.</p>
+  <p class="mood">Clima de tu corazón: <b id="moodTxt">lluvioso 🌧️</b></p>
+</header>
+
+<main>
+  <!-- 1 -->
+  <section class="ch wrap" id="c1">
+    <div class="card">
+      <span class="tag"><span>1</span>Una carta sellada</span>
+      <h2>Primero, lo que te quiero decir</h2>
+      <p class="sub">El sello solo se rompe si lo mantienes presionado. Así como las cosas importantes: con un poquito de paciencia.</p>
+      <div class="seal-stage">
+        <div class="env" id="env">
+          <span class="b"></span><span class="fl"></span><span class="f"></span>
+          <button class="hold" id="hold" aria-label="Mantén presionado para romper el sello">
+            <svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="38" fill="none" stroke="#ffffff30" stroke-width="5"/><circle id="ring" cx="42" cy="42" r="38" fill="none" stroke="#ffd57a" stroke-width="5" stroke-linecap="round" stroke-dasharray="239" stroke-dashoffset="239"/></svg>
+            <span class="wax">G</span>
+          </button>
+        </div>
+        <span class="hint" id="holdHint">Mantén presionado el sello 💌</span>
+      </div>
+      <div id="letterSlot"></div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="ch wrap locked" id="c2">
+    <div class="card">
+      <span class="tag"><span>2</span>Nubecitas de enojo</span>
+      <h2>Vamos a quitar las nubes</h2>
+      <p class="sub">Cada nubecita guarda algo que te quiero decir. Tócalas una por una hasta que salga el sol.</p>
+      <div class="cloudbox" id="cloudbox">
+        <div class="sun"></div>
+        <div class="sunmsg">Ya salió el sol ☀️</div>
+      </div>
+      <p class="said" id="said" aria-live="polite">Toca la primera nube…</p>
+      <span class="count" id="cloudCount">6 nubes por quitar</span>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="ch wrap locked" id="c3">
+    <div class="card">
+      <span class="tag"><span>3</span>Cupones de perdón</span>
+      <h2>Rasca tus cupones</h2>
+      <p class="sub">Son de verdad, no caducan y funcionan a distancia. Rasca con el dedo para descubrir cada uno; puedes cobrármelos cuando quieras.</p>
+      <div class="coupons" id="coupons"></div>
+      <p class="done-note" id="couponNote"></p>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="ch wrap locked" id="c4">
+    <div class="card">
+      <span class="tag"><span>4</span>Kintsugi</span>
+      <h2>Arreglemos esto juntos</h2>
+      <p class="sub">Hoy tu corazón se sintió un poquito roto por mi culpa. Arrastra la mitad de la derecha para volver a unirlo.</p>
+      <div class="kin" id="kin">
+        <div class="glow"></div>
+        <svg class="half l" viewBox="0 0 200 180" aria-hidden="true"><defs><clipPath id="cl"><polygon points="0,0 100,0 92,40 108,75 90,110 106,145 100,180 0,180"/></clipPath><linearGradient id="kg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb3c7"/><stop offset="1" stop-color="#e2557e"/></linearGradient></defs><path clip-path="url(#cl)" d="M100 170C40 125 0 95 0 55 0 22 25 0 55 0c20 0 37 12 45 28C108 12 125 0 145 0c30 0 55 22 55 55 0 40-40 70-100 115z" fill="url(#kg)"/></svg>
+        <svg class="half r" id="halfR" viewBox="0 0 200 180" role="img" aria-label="Mitad derecha del corazón, arrástrala"><defs><clipPath id="cr"><polygon points="100,0 200,0 200,180 100,180 106,145 90,110 108,75 92,40"/></clipPath></defs><path clip-path="url(#cr)" d="M100 170C40 125 0 95 0 55 0 22 25 0 55 0c20 0 37 12 45 28C108 12 125 0 145 0c30 0 55 22 55 55 0 40-40 70-100 115z" fill="url(#kg)"/></svg>
+        <svg class="gold" viewBox="0 0 200 180" aria-hidden="true"><polyline points="100,28 92,40 108,75 90,110 106,145 100,170" fill="none" stroke="#ffd57a" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" style="filter:drop-shadow(0 0 6px #ffd57a)"/></svg>
+        <span class="kinhint">Arrastra la mitad derecha hacia la izquierda →←</span>
+      </div>
+      <div class="row" style="display:flex;justify-content:center;margin-top:12px"><button class="ghost" id="joinBtn">Unir con un toque</button></div>
+      <div class="kintext" id="kintext">
+        <p>En Japón, cuando algo valioso se rompe, no lo tiran: lo reparan con <em>oro</em>. Dicen que después queda más bonito que antes, porque ya tiene historia.</p>
+        <p>Así quiero que quede esto: no como si nunca hubiera pasado, sino con una línea dorada que nos recuerde que lo arreglamos juntos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="ch wrap locked" id="c5">
+    <div class="card ask">
+      <span class="tag"><span>5</span>La pregunta</span>
+      <h2>¿Me perdonas, Osma?</h2>
+      <div class="choices" id="choices">
+        <button class="btn" id="yes">Sí, te perdono 💗</button>
+        <button class="ghost" id="no">Todavía estoy enojada</button>
+      </div>
+
+      <div class="wait" id="wait" hidden>
+        <p>Está bien, amor. Tómate tu tiempo, no hay prisa. Aquí sigo, y mientras tanto te mando abrazos 🤍</p>
+        <div class="choices"><button class="btn" id="hugBtn">Recibir un abrazo 🫂</button></div>
+        <p class="hugs" id="hugs" aria-live="polite"></p>
+      </div>
+
+      <div id="treatyWrap" hidden>
+        <div class="treaty" id="treaty">
+          <p class="ttl">Documento oficial · 27 de octubre de 2026</p>
+          <h3>Tratado de paz</h3>
+          <ol>
+            <li>Gabriel promete cuidar más sus bromas y fijarse en cómo te hacen sentir.</li>
+            <li>Osma puede ser dramática, tranquila, enojona o risueña. Todas sus versiones son bienvenidas.</li>
+            <li>Osma tiene permiso ilimitado de molestar a Gabriel, porque a él le encanta.</li>
+            <li>Queda prohibido el 🙄. Si a Gabriel se le escapa uno, lo paga con diez corazones.</li>
+            <li>Si algo nos duele, nos lo decimos con cariño, como hoy.</li>
+            <li>Los cupones de perdón no caducan.</li>
+            <li>Lo que empezó el <strong>13·10·2026</strong> sigue intacto, y más fuerte.</li>
+          </ol>
+          <div class="sigs">
+            <div class="sig"><div class="his">Gabriel</div><small>Tu novio</small></div>
+            <div class="sig"><div class="pad"><canvas id="pad"></canvas><span class="ph" id="padPh">Firma aquí con tu dedo ✍️</span></div><small>Osma, mi novia</small></div>
+          </div>
+          <div class="row"><button class="ghost" id="clear">Borrar</button><button class="btn" id="sign" disabled>Firmar el tratado</button></div>
+          <div class="stamp" id="stamp">Paz firmada 💗<br>27 · 10 · 2026</div>
+        </div>
+      </div>
+
+      <div class="finale" id="finale" hidden>
+        <div class="big">Gracias, mi amor</div>
+        <p>Prometo cuidar más mis bromas y no dejar nunca la duda de lo mucho que me gusta saber de ti. Aunque estemos lejos, me encantas igual o más que ayer, y te quiero muchísimo.</p>
+        <p style="font-family:var(--hand);font-size:1.8rem;color:var(--rose);margin-top:14px">Tu novio, Gabriel</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span class="h">con todo mi cariño</span>
+  Hecho para ti el 27 de octubre, porque contigo hasta pedir perdón quiero hacerlo bonito.
+</footer>
+
+<script>
+(()=>{
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $=id=>document.getElementById(id);
+  let stage=0;
+
+  /* ---------- toast + pétalos ---------- */
+  let tt; function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2200);}
+  function petals(n=28,gold){if(reduce)return;const box=$('petals');for(let i=0;i<n;i++){const p=document.createElement('span');p.className='petal'+(gold&&i%2?' g':'');p.style.left=Math.random()*100+'vw';p.style.setProperty('--t',(4+Math.random()*4)+'s');p.style.setProperty('--dx',(Math.random()*160-80)+'px');p.style.animationDelay=(Math.random()*1.4)+'s';box.appendChild(p);setTimeout(()=>p.remove(),10000);}}
+
+  /* ---------- cielo: lluvia que va desapareciendo, estrellas al final ---------- */
+  const c=$('fx'),x=c.getContext('2d');let W,H,drops=[],stars=[];const dpr=Math.min(devicePixelRatio||1,2);
+  function size(){W=c.width=innerWidth*dpr;H=c.height=innerHeight*dpr;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';
+    drops=Array.from({length:140},()=>({x:Math.random()*W,y:Math.random()*H,v:(6+Math.random()*6)*dpr,l:(10+Math.random()*12)*dpr}));
+    stars=Array.from({length:Math.round(innerWidth*innerHeight/4500)},()=>({x:Math.random()*W,y:Math.random()*H,r:(Math.random()*1.4+.3)*dpr,p:Math.random()*6.3}));}
+  const rainBy=[1,.55,.2,0,0,0];let rainNow=1,starNow=0;
+  function frame(t){
+    x.clearRect(0,0,W,H);
+    rainNow+=(rainBy[stage]-rainNow)*.03; starNow+=((stage>=4?1:0)-starNow)*.02;
+    if(starNow>.01){for(const s of stars){x.globalAlpha=starNow*(.35+.5*Math.abs(Math.sin(s.p+t/1000)));x.fillStyle='#fff';x.beginPath();x.arc(s.x,s.y,s.r,0,6.3);x.fill();}}
+    const n=Math.round(drops.length*rainNow);x.strokeStyle='#bcd2ff';x.lineWidth=1.2*dpr;
+    for(let i=0;i<n;i++){const d=drops[i];x.globalAlpha=.35;x.beginPath();x.moveTo(d.x,d.y);x.lineTo(d.x-d.l*.18,d.y+d.l);x.stroke();d.y+=d.v;d.x-=d.v*.18;if(d.y>H){d.y=-20;d.x=Math.random()*W*1.1;}}
+    x.globalAlpha=1; requestAnimationFrame(frame);
+  }
+  size();addEventListener('resize',size);
+  if(reduce){rainBy.fill(0);} requestAnimationFrame(frame);
+
+  /* ---------- corazoncito: cambia de humor ---------- */
+  const moods={
+    sad:{m:'M84 116q16-12 32 0',brow:1,tear:1,cheek:0,cloud:1,txt:'lluvioso 🌧️'},
+    meh:{m:'M84 112h32',brow:1,tear:0,cheek:0,cloud:.7,txt:'nublado ☁️'},
+    ok:{m:'M84 110q16 8 32 0',brow:0,tear:0,cheek:.4,cloud:.35,txt:'despejándose 🌤️'},
+    happy:{m:'M82 106q18 18 36 0',brow:0,tear:0,cheek:.8,cloud:0,txt:'soleado ☀️'},
+    love:{m:'M80 104q20 26 40 0z',brow:0,tear:0,cheek:1,cloud:0,txt:'lleno de estrellas ✨'}
+  };
+  function mood(k){const m=moods[k];document.body.dataset.mood=k;$('mouth').setAttribute('d',m.m);$('mouth').setAttribute('fill',k==='love'?'#7a2440':'none');
+    $('brow').style.opacity=m.brow;$('tear').style.opacity=m.tear;$('cheeks').style.opacity=m.cheek;$('mCloud').style.opacity=m.cloud;$('mCloud').style.transform=m.cloud?'':'translateY(-30px)';$('moodTxt').textContent=m.txt;}
+  mood('sad');
+
+  /* ---------- avanzar ---------- */
+  const moodAt=['sad','meh','ok','happy','happy','love'];
+  function advance(to){
+    if(to<=stage)return; stage=to; document.body.dataset.stage=stage; mood(moodAt[stage]);
+    [...$('dots').children].forEach((d,i)=>d.classList.toggle('on',i<stage));
+    $('plbl').textContent=stage>=5?'¡Completado! 💗':'Paso '+(stage+1)+' de 5';
+    const next=$('c'+(stage+1));
+    if(next){next.classList.remove('locked');next.classList.add('reveal');setTimeout(()=>next.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}),900);}
+  }
+
+  /* ---------- 1 · mantener presionado el sello ---------- */
+  const hold=$('hold'),ring=$('ring');let hp=0,holding=false,opened=false,last=0;
+  function tick(ts){if(opened)return;const dt=last?ts-last:16;last=ts;hp=Math.max(0,Math.min(1,hp+(holding?dt/1300:-dt/600)));ring.style.strokeDashoffset=239*(1-hp);
+    if(navigator.vibrate&&holding&&Math.random()<.05)navigator.vibrate(8);
+    if(hp>=1){openLetter();return;} if(holding||hp>0)requestAnimationFrame(tick);else last=0;}
+  function start(e){e.preventDefault();if(opened)return;holding=true;last=0;$('holdHint').textContent='Sigue presionando… ✨';requestAnimationFrame(tick);}
+  function stop(){holding=false;if(!opened&&hp<1)$('holdHint').textContent='Mantén presionado el sello 💌';}
+  hold.addEventListener('pointerdown',start);['pointerup','pointerleave','pointercancel'].forEach(ev=>hold.addEventListener(ev,stop));
+  hold.addEventListener('contextmenu',e=>e.preventDefault());
+  hold.addEventListener('keydown',e=>{if((e.key===' '||e.key==='Enter')&&!holding){start(e);}});hold.addEventListener('keyup',stop);
+  function openLetter(){opened=true;$('env').classList.add('open');$('holdHint').textContent='Léela despacito 🤍';
+    setTimeout(()=>{$('letterSlot').innerHTML=`<article class="letter">
+      <p class="to">Osma:</p>
+      <p>Me dijiste <strong>“me gusta andar de dramática, amor”</strong> y yo te dije que amo eso. Y lo dije en serio: amo tus dramas y tus “JAJAJAJA”.</p>
+      <p>Luego me dijiste que yo amo que no me estés molestando, y yo te contesté con un <strong>🙄</strong>. Ahí me equivoqué. Para mí era parte de la broma, pero a ti te dolió, y tienes razón: no se sintió bonito. Perdóname, amor.</p>
+      <p>Ese 🙄 no quería decir nada de lo que pudo parecer. Te lo digo bien claro: <strong>tú nunca me molestas</strong>. Me encanta que me escribas, que me busques y que me cuentes todo, a la hora que sea.</p>
+      <p>Ya sé que eres bien sentida, y eso no tiene nada de malo. Significa que tienes el corazón grande, y lo que sientes <strong>nunca es exagerado para mí</strong>.</p>
+      <p>Te pedí perdón y me dijiste “Nop”. Me lo gané, así que aquí estoy otra vez, ahora con más ganas y desde lejitos.</p>
+      <p class="sign">Tu novio, Gabriel 🤍</p>
+      <div style="text-align:center;margin-top:10px"><button class="btn" id="read1">Ya la leí → siguiente</button></div>
+    </article>`;
+    $('read1').addEventListener('click',e=>{e.target.disabled=true;e.target.textContent='Leída 💌';toast('La lluvia ya está bajando 🌦️');advance(1);});},reduce?0:700);}
+
+  /* ---------- 2 · nubecitas ---------- */
+  const clouds=[
+    ['molestar','Tú nunca me molestas. Nunca. No quiero que pienses que estoy mejor sin saber de ti.'],
+    ['🙄','Perdóname por ese 🙄. Para mí era broma, pero entiendo que no se sintió así, y eso es lo que importa.'],
+    ['sentida','Ser sentida es tener el corazón grande. Y yo quiero cuidar ese corazón, no lastimarlo.'],
+    ['dramática','Amo que seas dramática. Lo dije en serio: es una de las cosas que me encantan de ti.'],
+    ['lejos','Aunque estemos en estados diferentes, si pudiera, ahorita mismo me iba a darte un abrazo.'],
+    ['nop','Y aunque me hayas dicho “Nop”, aquí sigo: te quiero muchísimo, Osma. 💗']
+  ];
+  const box=$('cloudbox');let left=clouds.length;
+  const pos=[[6,10],[56,6],[30,34],[70,40],[8,58],[48,66]];
+  clouds.forEach(([w,msg],i)=>{const b=document.createElement('button');b.className='nube';b.setAttribute('aria-label','Nube: '+w);
+    b.style.left=`calc(${pos[i][0]}% )`;b.style.top=pos[i][1]+'%';b.style.setProperty('--d',(4+Math.random()*3)+'s');b.style.setProperty('--mx',(Math.random()*30-15)+'px');
+    b.innerHTML='<svg viewBox="0 0 120 70"><path d="M28 62a20 20 0 0 1 2-40 26 26 0 0 1 48 2 18 18 0 0 1 14 38z" fill="#d7d3e6"/></svg><small>'+w+'</small>';
+    b.addEventListener('click',()=>{b.classList.add('pop');$('said').textContent=msg;left--;navigator.vibrate&&navigator.vibrate(15);
+      $('cloudCount').textContent=left?left+(left===1?' nube por quitar':' nubes por quitar'):'¡Cielo despejado!';
+      if(!left){box.classList.add('clear');toast('Ya salió el sol ☀️');setTimeout(()=>advance(2),1400);}});
+    box.appendChild(b);});
+
+  /* ---------- 3 · cupones para rascar ---------- */
+  const coupons=[
+    ['Vale por','Molestarme todo lo que quieras','Mensajes, audios y dramas a cualquier hora. Me encanta que me molestes.'],
+    ['Vale por','Cero ojitos en blanco','Si se me escapa otro 🙄, lo cambias por diez corazones y un perdón inmediato.'],
+    ['Vale por','Una canción dedicada','Escogida pensando en ti, con su mensajito de por qué me recuerda a ti.'],
+    ['Vale por','Una plática sin bromas','Para cuando necesites que solo te escuche, con toda mi atención.']
+  ];
+  const cbox=$('coupons');let got=0;
+  coupons.forEach(([k,t,s])=>{const d=document.createElement('div');d.className='coupon';
+    d.innerHTML=`<div class="in"><small>${k}</small><b>${t}</b><span>${s}</span></div><span class="ok">Tuyo ✓</span><canvas aria-label="Rasca para descubrir: ${t}" role="img"></canvas>`;
+    cbox.appendChild(d);});
+  function setupScratch(card){
+    const cv=card.querySelector('canvas'),g=cv.getContext('2d');let done=false,down=false,moves=0;
+    function paint(){const r=cv.getBoundingClientRect();cv.width=r.width*dpr;cv.height=r.height*dpr;
+      const gr=g.createLinearGradient(0,0,cv.width,cv.height);gr.addColorStop(0,'#e8b3c6');gr.addColorStop(.5,'#f6d3a8');gr.addColorStop(1,'#cdb6f2');
+      g.globalCompositeOperation='source-over';g.fillStyle=gr;g.fillRect(0,0,cv.width,cv.height);
+      g.fillStyle='#ffffff55';for(let i=0;i<40;i++){g.beginPath();g.arc(Math.random()*cv.width,Math.random()*cv.height,(1+Math.random()*2)*dpr,0,6.3);g.fill();}
+      g.fillStyle='#5b3a55';g.font=`700 ${15*dpr}px Montserrat, sans-serif`;g.textAlign='center';g.fillText('✦ Rasca aquí ✦',cv.width/2,cv.height/2+5*dpr);}
+    paint();
+    function scratch(e){const r=cv.getBoundingClientRect();g.globalCompositeOperation='destination-out';g.beginPath();g.arc((e.clientX-r.left)*dpr,(e.clientY-r.top)*dpr,22*dpr,0,6.3);g.fill();
+      if(++moves%8===0)check();}
+    function check(){const d=g.getImageData(0,0,cv.width,cv.height).data;let clear=0,tot=0;for(let i=3;i<d.length;i+=4*40){tot++;if(d[i]===0)clear++;}
+      if(clear/tot>.45&&!done){done=true;card.classList.add('got');got++;navigator.vibrate&&navigator.vibrate(20);
+        if(got===coupons.length){$('couponNote').textContent='Los cuatro son tuyos 💗';toast('Cupones guardados 🎟️');setTimeout(()=>advance(3),1300);}}}
+    cv.addEventListener('pointerdown',e=>{down=true;cv.setPointerCapture(e.pointerId);scratch(e);});
+    cv.addEventListener('pointermove',e=>{if(down)scratch(e);});
+    ['pointerup','pointercancel'].forEach(ev=>cv.addEventListener(ev,()=>{down=false;check();}));
+    cv.addEventListener('click',()=>{ if(!done && moves<2){ /* teclado o toque sin arrastre: revelar de a poco */ g.globalCompositeOperation='destination-out';g.fillRect(0,0,cv.width*(.3+Math.random()*.2),cv.height);moves+=8;check(); } });
+  }
+  // se dibujan cuando el capítulo ya se ve, para medir bien el tamaño
+  let scratchReady=false;
+  new MutationObserver(()=>{if(!scratchReady&&!$('c3').classList.contains('locked')){scratchReady=true;requestAnimationFrame(()=>document.querySelectorAll('.coupon').forEach(setupScratch));}}).observe($('c3'),{attributes:true});
+
+  /* ---------- 4 · kintsugi: arrastrar la mitad ---------- */
+  const kin=$('kin'),R=$('halfR');let ox,oy,dx,dy,drag=false,joined=false,sx,sy;
+  function home(){const w=kin.clientWidth;dx=Math.min(120,w*.28);dy=-22;place(12);}
+  function place(rot){R.style.transform=`translate(${dx}px,${dy}px) rotate(${rot}deg)`;}
+  home();addEventListener('resize',()=>{if(!joined&&!drag)home();});
+  R.addEventListener('pointerdown',e=>{if(joined)return;drag=true;R.classList.remove('snap');R.classList.add('dragging');R.setPointerCapture(e.pointerId);sx=e.clientX-dx;sy=e.clientY-dy;});
+  R.addEventListener('pointermove',e=>{if(!drag)return;dx=e.clientX-sx;dy=e.clientY-sy;const dist=Math.hypot(dx,dy);place(Math.min(12,dist/10));if(dist<16)join();});
+  ['pointerup','pointercancel'].forEach(ev=>R.addEventListener(ev,()=>{if(!drag)return;drag=false;R.classList.remove('dragging');}));
+  $('joinBtn').addEventListener('click',join);
+  function join(){if(joined)return;joined=true;drag=false;R.classList.remove('dragging');R.classList.add('snap');dx=0;dy=0;place(0);
+    kin.classList.add('joined');$('joinBtn').hidden=true;navigator.vibrate&&navigator.vibrate([20,40,20]);
+    setTimeout(()=>{$('kintext').classList.add('show');petals(16,true);toast('Reparado con oro ✨');},1200);
+    setTimeout(()=>advance(4),3200);}
+
+  /* ---------- 5 · pregunta, tratado y firma ---------- */
+  $('no').addEventListener('click',()=>{$('wait').hidden=false;$('no').textContent='Sigo pensándolo…';});
+  let hugs=0;$('hugBtn').addEventListener('click',()=>{hugs++;$('hugs').textContent=hugs===1?'1 abrazo recibido 🤍':hugs+' abrazos recibidos 🤍';petals(6);});
+  $('yes').addEventListener('click',()=>{$('choices').hidden=true;$('wait').hidden=true;$('treatyWrap').hidden=false;petals(30);toast('¡Dijiste que sí! 💗');requestAnimationFrame(initPad);
+    setTimeout(()=>$('treaty').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}),300);});
+  let pg,pc,ink=0,padDown=false,lx,ly;
+  function fit(){if(pc.width!==Math.round(pc.offsetWidth*dpr)){pc.width=Math.round(pc.offsetWidth*dpr);pc.height=Math.round(pc.offsetHeight*dpr);pg.lineCap='round';pg.lineJoin='round';pg.strokeStyle='#8a3a5c';pg.lineWidth=2.6*dpr;}}
+  function pt(e){const r=pc.getBoundingClientRect();return[(e.clientX-r.left)*pc.width/r.width,(e.clientY-r.top)*pc.height/r.height];}
+  function initPad(){pc=$('pad');pg=pc.getContext('2d');
+    pc.addEventListener('pointerdown',e=>{fit();padDown=true;pc.setPointerCapture(e.pointerId);[lx,ly]=pt(e);$('padPh').hidden=true;});
+    pc.addEventListener('pointermove',e=>{if(!padDown)return;const [nx,ny]=pt(e);pg.beginPath();pg.moveTo(lx,ly);pg.lineTo(nx,ny);pg.stroke();ink+=Math.hypot(nx-lx,ny-ly)/dpr;lx=nx;ly=ny;if(ink>60)$('sign').disabled=false;});
+    ['pointerup','pointercancel'].forEach(ev=>pc.addEventListener(ev,()=>padDown=false));}
+  $('clear').addEventListener('click',()=>{if(!pg)return;pg.clearRect(0,0,pc.width,pc.height);ink=0;$('sign').disabled=true;$('padPh').hidden=false;});
+  $('sign').addEventListener('click',()=>{$('sign').disabled=true;$('sign').textContent='Firmado ✓';$('clear').hidden=true;
+    $('stamp').classList.add('on');navigator.vibrate&&navigator.vibrate(40);
+    setTimeout(()=>{advance(5);petals(50,true);$('finale').hidden=false;$('finale').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});},700);});
+})();
+</script>
+</body>
+</html>
