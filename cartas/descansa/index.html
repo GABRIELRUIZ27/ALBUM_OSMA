@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2a1f45">
+<title>Ya puedes descansar, amor 🌙</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@400;500;600;700;800&family=Parisienne&display=swap">
+<style>
+  /* Una semana pesada que se va volviendo ligera: piedritas que se convierten en globos, y al final una noche tranquila */
+  :root{
+    --paper:#fffaf3; --ink:#3a2e48; --muted:#7c7090; --rose:#ff9fb8; --wine:#8a3a5c; --cream:#fff1e2;
+    --gold:#ffd58a; --amber:#ffb26b; --lav:#cdbfff; --glass:rgba(255,255,255,.08); --line:rgba(255,255,255,.16);
+    --display:"Cormorant Garamond",Georgia,serif; --body:Montserrat,"Segoe UI",Arial,sans-serif; --hand:Parisienne,"Brush Script MT",cursive;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  html{scroll-behavior:smooth}
+  body{margin:0;min-height:100vh;color:var(--cream);font-family:var(--body);overflow-x:hidden;
+    background:radial-gradient(80% 50% at 50% 0%,#5a3a7a 0%,transparent 70%),linear-gradient(180deg,#2a1f45 0%,#1b1533 50%,#120e26 100%) fixed;background-color:#1b1533}
+  button{font:inherit;cursor:pointer;color:inherit}
+  button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+  #sky{position:fixed;inset:0;z-index:-1;pointer-events:none}
+  .moon{position:fixed;right:-60px;top:6vh;width:200px;aspect-ratio:1;max-width:50vw;border-radius:50%;z-index:-1;pointer-events:none;
+    background:radial-gradient(circle at 40% 40%,#fffdf2 0,#ffe8b5 50%,#ffcf8a 100%);box-shadow:0 0 70px #ffe0a080,0 0 170px #ffb87830;opacity:.85}
+  .floaty{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+  .heartp{position:absolute;bottom:-30px;font-size:var(--s,18px);animation:up var(--t,6s) ease-in forwards}
+  @keyframes up{to{transform:translate3d(var(--dx,0),-115vh,0) rotate(var(--rot,20deg));opacity:0}}
+
+  .wrap{width:min(720px,100%);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0}
+
+  header{padding-block:56px 16px;text-align:center}
+  .date{display:inline-block;padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:var(--glass);color:var(--lav);font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+  .mug{width:120px;margin:26px auto 4px;display:block;filter:drop-shadow(0 16px 30px #0007)}
+  .steam path{animation:steam 3s ease-in-out infinite;opacity:.7}
+  .steam path:nth-child(2){animation-delay:.8s}.steam path:nth-child(3){animation-delay:1.6s}
+  @keyframes steam{0%{transform:translateY(6px);opacity:0}40%{opacity:.8}100%{transform:translateY(-10px);opacity:0}}
+  header h1{font-size:clamp(3rem,11vw,5.4rem);line-height:.92;letter-spacing:-.03em;color:#fff6ea}
+  header h1 em{display:block;font-family:var(--hand);font-style:normal;font-weight:400;font-size:.55em;color:var(--rose);letter-spacing:0;margin-top:8px}
+  .lead{color:#e6ddf3;line-height:1.8;font-size:clamp(1rem,2.2vw,1.1rem);max-width:52ch;margin:16px auto 0}
+  .meter{max-width:340px;margin:22px auto 0;text-align:left}
+  .meter span{display:flex;justify-content:space-between;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--lav)}
+  .meter b{color:var(--gold)}
+  .bar{height:10px;border-radius:99px;background:#ffffff1a;margin-top:8px;overflow:hidden}
+  .bar i{display:block;height:100%;width:100%;border-radius:99px;background:linear-gradient(90deg,#8f7bb8,#c27a9c);transition:width .8s ease,background .8s}
+  .bar.light i{background:linear-gradient(90deg,var(--gold),var(--rose))}
+
+  .ch{padding-block:36px}
+  .card{position:relative;border:1px solid var(--line);border-radius:30px;background:linear-gradient(155deg,#ffffff14,#ffffff06);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:clamp(22px,5vw,42px);box-shadow:0 30px 80px #0005;overflow:hidden}
+  .tag{display:inline-flex;gap:8px;align-items:center;color:var(--rose);font-size:.7rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+  .tag span{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--rose);color:#2b1a2f;font-size:.72rem;letter-spacing:0}
+  .ch h2{font-size:clamp(2rem,6vw,3rem);line-height:1.04;margin-top:10px;color:#fff6ea}
+  .ch p.sub{color:#ddd3ee;line-height:1.75;margin:10px 0 0;max-width:52ch}
+  .btn{border:0;border-radius:999px;padding:14px 24px;font-weight:700;color:#2a1a33;background:linear-gradient(120deg,var(--gold),var(--rose));box-shadow:0 14px 34px #ff9fb840;transition:transform .2s}
+  .btn:active{transform:scale(.96)}
+
+  /* 1 · piedritas → globos */
+  .stones{position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:24px;min-height:150px}
+  .stone{position:relative;border:0;padding:16px 18px;min-width:120px;border-radius:46% 54% 50% 50%/58% 50% 50% 42%;
+    background:radial-gradient(circle at 35% 30%,#8a8199,#5a5268 70%);color:#f2ecf8;font-weight:700;font-size:.8rem;letter-spacing:.04em;
+    box-shadow:inset -6px -8px 0 #00000030,0 10px 20px #0005;transition:transform .25s}
+  .stone small{display:block;font-size:.6rem;font-weight:600;opacity:.75;margin-top:3px;letter-spacing:.08em;text-transform:uppercase}
+  .stone:hover{transform:translateY(-3px)}
+  .stone.fly{animation:fly 1.6s cubic-bezier(.4,0,.6,1) forwards;background:radial-gradient(circle at 35% 30%,#fff3c6,var(--gold) 55%,var(--amber));color:#4a2f20;border-radius:50% 50% 48% 48%/56% 56% 44% 44%;box-shadow:0 0 30px #ffd58a90;pointer-events:none}
+  .stone.fly::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:46px;background:#ffd58aaa}
+  @keyframes fly{30%{transform:translateY(-14px) scale(1.06)}100%{transform:translateY(-420px) scale(.9) rotate(-8deg);opacity:0}}
+  .said{margin-top:18px;min-height:3.4em;font-family:var(--display);font-style:italic;font-size:1.35rem;line-height:1.4;color:#fff4ea;text-align:center}
+  .count{display:block;text-align:center;font-size:.72rem;color:var(--lav);letter-spacing:.12em;text-transform:uppercase}
+  .proud{display:none;margin-top:18px;text-align:center}
+  .proud.show{display:block;animation:rise .8s ease both}
+  .proud b{display:block;font-family:var(--hand);font-weight:400;font-size:clamp(2.2rem,7vw,3rem);color:var(--gold);text-shadow:0 0 30px #ffd58a60}
+  .proud p{color:#eee5fb;line-height:1.8;max-width:46ch;margin:8px auto 0}
+  @keyframes rise{from{opacity:0;transform:translateY(20px)}}
+
+  /* 2 · carta */
+  .letter{margin-top:22px;background:var(--paper);color:var(--ink);border-radius:8px;padding:clamp(24px,6vw,46px);box-shadow:0 24px 60px #0007;
+    background-image:repeating-linear-gradient(transparent 0 31px,#f0e4dc 31px 32px);background-position:0 20px}
+  .letter .to{font-family:var(--hand);font-size:2.1rem;color:var(--wine);margin:0 0 6px}
+  .letter p{margin:0 0 16px;line-height:2}
+  .letter strong{color:var(--wine)}
+  .letter .sign{font-family:var(--hand);font-size:1.9rem;color:var(--wine);text-align:right;margin:0}
+
+  /* 3 · frasco de "te amo" */
+  .jarzone{display:grid;grid-template-columns:minmax(0,170px) minmax(0,1fr);gap:22px;align-items:center;margin-top:22px}
+  .jar{border:0;background:none;padding:0;width:100%;max-width:170px;transition:transform .2s}
+  .jar:active{transform:scale(.95) rotate(-3deg)}
+  .jar.shake{animation:shake .45s ease}
+  @keyframes shake{25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+  .note{position:relative;min-height:170px;background:#fff6d9;color:#4a3a2a;border-radius:4px;padding:22px 20px 18px;box-shadow:0 18px 40px #0006;transform:rotate(1.5deg);display:flex;flex-direction:column;justify-content:center}
+  .note::before{content:"";position:absolute;left:50%;top:-10px;translate:-50% 0;width:70px;height:20px;background:#ff9fb8cc;transform:rotate(-4deg)}
+  .note small{font-size:.62rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#c06080}
+  .note p{margin:8px 0 0;font-family:var(--display);font-size:1.35rem;line-height:1.35}
+  .note.pop{animation:pop .5s cubic-bezier(.3,1.5,.5,1)}
+  @keyframes pop{from{transform:rotate(1.5deg) scale(.7);opacity:0}}
+  .jarcount{margin-top:12px;font-size:.72rem;color:var(--lav);letter-spacing:.12em;text-transform:uppercase}
+  @media (max-width:520px){.jarzone{grid-template-columns:1fr;justify-items:center}.note{width:100%}}
+
+  /* 4 · abrazo */
+  .hugzone{display:grid;place-items:center;gap:14px;margin-top:22px;text-align:center}
+  .hug{position:relative;width:150px;height:150px;border:0;border-radius:50%;padding:0;background:none;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+  .hug svg{position:absolute;inset:0;rotate:-90deg}
+  .hug .core{position:absolute;inset:16px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#ffc3d3,#d9668c);font-size:3rem;box-shadow:0 10px 30px #d9668c66;transition:transform .2s}
+  .hug:active .core{transform:scale(.93)}
+  .hug.done .core{animation:beat 1.2s ease-in-out infinite}
+  @keyframes beat{15%{transform:scale(1.08)}30%{transform:scale(1)}45%{transform:scale(1.06)}}
+  .hugmsg{font-family:var(--display);font-style:italic;font-size:1.3rem;line-height:1.45;max-width:34ch;min-height:2.9em;color:#fff3ec}
+
+  /* sorpresa */
+  .soon{padding-block:30px 20px;text-align:center}
+  .gift{border:0;background:none;padding:0;width:110px;margin:0 auto;display:block;animation:wiggle 2.6s ease-in-out infinite;filter:drop-shadow(0 14px 26px #0007)}
+  @keyframes wiggle{0%,70%,100%{transform:rotate(0)}75%{transform:rotate(-7deg)}80%{transform:rotate(7deg)}85%{transform:rotate(-5deg)}90%{transform:rotate(4deg)}}
+  .soon h2{font-family:var(--hand);font-weight:400;font-size:clamp(2.4rem,8vw,3.4rem);color:var(--gold);margin-top:14px;text-shadow:0 0 30px #ffd58a55}
+  .soon p{color:#ddd3ee;line-height:1.7;max-width:40ch;margin:8px auto 0}
+  .soon .peek{margin-top:10px;min-height:1.3em;font-size:.85rem;color:var(--rose);font-weight:600}
+
+  .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));translate:-50% 0;z-index:70;padding:12px 18px;border-radius:999px;background:var(--paper);color:var(--ink);font-weight:700;font-size:.85rem;box-shadow:0 14px 34px #0006;opacity:0;transform:translateY(20px);transition:.35s;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
+  .toast.on{opacity:1;transform:none}
+  footer{text-align:center;padding-block:20px 70px;color:#b8acd3;font-size:.8rem}
+  footer .h{font-family:var(--hand);font-size:1.7rem;color:var(--rose);display:block;margin-bottom:4px}
+  @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="moon" aria-hidden="true"></div>
+<div class="floaty" id="floaty" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<header class="wrap">
+  <span class="date">Sábado 31 de octubre · para Osma</span>
+  <svg class="mug" viewBox="0 0 120 120" aria-hidden="true">
+    <g class="steam" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"><path d="M40 34c-6-8 6-12 0-20"/><path d="M58 34c-6-8 6-12 0-20"/><path d="M76 34c-6-8 6-12 0-20"/></g>
+    <path d="M22 44h74v34a26 26 0 0 1-26 26H48a26 26 0 0 1-26-26z" fill="#ffb3c7"/>
+    <path d="M96 52h6a12 12 0 0 1 0 24h-6" stroke="#ffb3c7" stroke-width="7" fill="none"/>
+    <path d="M22 44h74v6H22z" fill="#e88aa6"/>
+    <path d="M59 86c-10-7-16-12-16-18a8 8 0 0 1 16-2 8 8 0 0 1 16 2c0 6-6 11-16 18z" fill="#fff" opacity=".9"/>
+  </svg>
+  <h1>Ya puedes descansar<em>mi amor bonito</em></h1>
+  <p class="lead">Sé que esta semana estuvo bien pesada: la escuela, el trabajo, el cansancio de todos los días. Hoy no tienes que hacer nada más. Esta cartita es para que sueltes todo, poquito a poquito.</p>
+  <div class="meter" aria-live="polite">
+    <span>Peso de tu semana <b id="pct">100%</b></span>
+    <div class="bar" id="bar"><i id="barFill"></i></div>
+  </div>
+</header>
+
+<main>
+  <section class="ch wrap">
+    <div class="card">
+      <span class="tag"><span>1</span>Suelta tu semana</span>
+      <h2>Estas piedritas ya no las cargas tú</h2>
+      <p class="sub">Toca cada una. Todo lo pesado de esta semana se va a volver globito y se va a ir volando.</p>
+      <div class="stones" id="stones"></div>
+      <p class="said" id="said" aria-live="polite">Toca la primera piedrita…</p>
+      <span class="count" id="count"></span>
+      <div class="proud" id="proud">
+        <b>Lo lograste, amor</b>
+        <p>Sobreviviste a una semana durísima y lo hiciste con todo y cansancio. Estoy muy, muy orgulloso de ti.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch wrap">
+    <div class="card">
+      <span class="tag"><span>2</span>Tu cartita de hoy</span>
+      <h2>Lo que te quiero decir</h2>
+      <article class="letter">
+        <p class="to">Osma:</p>
+        <p>Esta semana te vi con mil cosas encima: clases, tareas, el trabajo, días largos y noches cortas. Y aun así sacabas tiempo para escribirme. No sabes cuánto valoro eso.</p>
+        <p>Quiero que sepas algo: <strong>no tienes que poder con todo tú sola</strong>. Cuando estés cansada, dímelo. Cuando quieras quejarte, quéjate conmigo. Cuando solo quieras que alguien te escuche, aquí estoy, aunque estemos lejitos.</p>
+        <p>Admiro muchísimo lo que haces. Estudiar y trabajar al mismo tiempo no es nada fácil, y tú lo haces mientras te preparas para algo tan bonito como cuidar a otras personas. Ahora déjame cuidarte un poquito a ti.</p>
+        <p>Y por si se te olvida entre tanto cansancio: <strong>te amo muchísimo</strong>. Te amo en tus días buenos y en tus días pesados, cuando estás con energía y cuando nada más quieres dormir. Eso no cambia nunca.</p>
+        <p>Hoy descansa, come rico, ponte cómoda y no te preocupes por nada. Te lo ganaste.</p>
+        <p class="sign">Tu novio, Gabriel 🤍</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="ch wrap">
+    <div class="card">
+      <span class="tag"><span>3</span>Frasquito de “te amo”</span>
+      <h2>Por si un día se te olvida</h2>
+      <p class="sub">Agita el frasquito y saca una notita. Hay una para cada vez que necesites acordarte de lo mucho que te amo.</p>
+      <div class="jarzone">
+        <button class="jar" id="jar" aria-label="Agitar el frasquito y sacar una notita">
+          <svg viewBox="0 0 170 200" aria-hidden="true">
+            <rect x="48" y="8" width="74" height="22" rx="6" fill="#c88b5a"/>
+            <rect x="44" y="26" width="82" height="10" rx="4" fill="#a9703f"/>
+            <path d="M40 40h90c10 0 16 8 16 18v114c0 14-10 24-24 24H48c-14 0-24-10-24-24V58c0-10 6-18 16-18z" fill="#ffffff20" stroke="#ffffff70" stroke-width="3"/>
+            <g id="jarNotes">
+              <rect x="44" y="140" width="34" height="22" rx="3" fill="#fff6d9" transform="rotate(-12 61 151)"/>
+              <rect x="80" y="146" width="34" height="22" rx="3" fill="#ffd3df" transform="rotate(10 97 157)"/>
+              <rect x="58" y="116" width="34" height="22" rx="3" fill="#e7dcff" transform="rotate(6 75 127)"/>
+              <rect x="96" y="118" width="30" height="20" rx="3" fill="#fff6d9" transform="rotate(-16 111 128)"/>
+              <rect x="40" y="166" width="36" height="20" rx="3" fill="#ffe1c2" transform="rotate(4 58 176)"/>
+              <rect x="90" y="170" width="36" height="20" rx="3" fill="#fff6d9" transform="rotate(-6 108 180)"/>
+            </g>
+            <text x="85" y="94" text-anchor="middle" font-family="Parisienne, cursive" font-size="26" fill="#ffd58a">te amo</text>
+            <path d="M52 50c0 30 0 70 4 110" stroke="#ffffff50" stroke-width="5" stroke-linecap="round" fill="none"/>
+          </svg>
+        </button>
+        <div>
+          <div class="note" id="note" aria-live="polite">
+            <small>Notita</small>
+            <p>Toca el frasquito para sacar la primera 💌</p>
+          </div>
+          <p class="jarcount" id="jarcount"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch wrap">
+    <div class="card">
+      <span class="tag"><span>4</span>Un abrazo de lejitos</span>
+      <h2>Mantén presionado el corazón</h2>
+      <p class="sub">Como no puedo ir a abrazarte ahorita, este abrazo dura lo que tú quieras. Mantén presionado hasta que se llene.</p>
+      <div class="hugzone">
+        <button class="hug" id="hug" aria-label="Mantén presionado para recibir un abrazo">
+          <svg viewBox="0 0 150 150"><circle cx="75" cy="75" r="68" fill="none" stroke="#ffffff22" stroke-width="7"/><circle id="hugRing" cx="75" cy="75" r="68" fill="none" stroke="#ffd58a" stroke-width="7" stroke-linecap="round" stroke-dasharray="428" stroke-dashoffset="428"/></svg>
+          <span class="core">🫂</span>
+        </button>
+        <p class="hugmsg" id="hugmsg">Imagínate que estoy ahí contigo…</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap soon" aria-labelledby="soonT">
+    <button class="gift" id="gift" aria-label="Un regalito cerrado">
+      <svg viewBox="0 0 110 110" aria-hidden="true">
+        <rect x="12" y="44" width="86" height="58" rx="8" fill="#d9668c"/>
+        <rect x="6" y="30" width="98" height="20" rx="6" fill="#ff9fb8"/>
+        <rect x="48" y="30" width="14" height="72" fill="#ffd58a"/>
+        <path d="M55 30c-6-16-30-20-30-6 0 8 16 8 30 6zM55 30c6-16 30-20 30-6 0 8-16 8-30 6z" fill="#ffd58a"/>
+        <text x="55" y="80" text-anchor="middle" font-family="Montserrat, sans-serif" font-weight="800" font-size="18" fill="#fff">?</text>
+      </svg>
+    </button>
+    <h2 id="soonT">Pronto habrá una sorpresa…</h2>
+    <p>Todavía no te puedo decir qué es. Solo te digo que la estoy preparando con mucho amor, y que va a valer la pena esperar.</p>
+    <p class="peek" id="peek" aria-live="polite"></p>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span class="h">te amo mi amor</span>
+  Hecho para ti el 31 de octubre, para cerrar tu semana bonito.
+</footer>
+
+<script>
+(()=>{
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $=id=>document.getElementById(id);
+  const dpr=Math.min(devicePixelRatio||1,2);
+  let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2200);}
+  function hearts(n=14,set=['💗','🤍','💖','✨']){if(reduce)return;const box=$('floaty');for(let i=0;i<n;i++){const h=document.createElement('span');h.className='heartp';h.textContent=set[i%set.length];
+    h.style.left=Math.random()*100+'vw';h.style.setProperty('--t',(4+Math.random()*3)+'s');h.style.setProperty('--dx',(Math.random()*120-60)+'px');h.style.setProperty('--s',(14+Math.random()*16)+'px');h.style.animationDelay=Math.random()+'s';box.appendChild(h);setTimeout(()=>h.remove(),9000);}}
+
+  /* cielo con estrellitas */
+  const c=$('sky'),x=c.getContext('2d');let stars=[];
+  function size(){c.width=innerWidth*dpr;c.height=innerHeight*dpr;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';
+    stars=Array.from({length:Math.round(innerWidth*innerHeight/5000)},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:(Math.random()*1.3+.3)*dpr,p:Math.random()*6.3,s:.4+Math.random()*1.4}));}
+  function draw(t){x.clearRect(0,0,c.width,c.height);for(const s of stars){x.globalAlpha=reduce?.6:.25+.5*Math.abs(Math.sin(s.p+t/1200*s.s));x.fillStyle='#fff';x.beginPath();x.arc(s.x,s.y,s.r,0,6.3);x.fill();}if(!reduce)requestAnimationFrame(draw);}
+  size();addEventListener('resize',size);requestAnimationFrame(draw);
+
+  /* 1 · piedritas */
+  const week=[
+    ['Clases','lunes a viernes','Todas esas horas de clase ya pasaron. Lo que aprendiste se queda contigo; el cansancio, no.'],
+    ['Tareas','y más tareas','Ya entregaste, ya cumpliste. Hoy no hay pendientes que valgan más que tu descanso.'],
+    ['El trabajo','turnos largos','Trabajar y estudiar a la vez es de gente muy fuerte. Y tú eres de esas.'],
+    ['Desvelos','ojitos cansados','Hoy te toca dormir todo lo que quieras. Sin alarmas, si se puede.'],
+    ['Estrés','del bueno y del malo','Respira hondo. Ya pasó. Lo que viene, lo vamos viendo juntos.'],
+    ['Cansancio','acumulado','Puedes estar cansada y aun así ser increíble. Hoy solo descansa, amor.']
+  ];
+  const sb=$('stones');let left=week.length;
+  function setCount(){$('count').textContent=left?left+(left===1?' piedrita por soltar':' piedritas por soltar'):'¡Semana soltada!';
+    const p=Math.round(left/week.length*100);$('pct').textContent=p+'%';$('barFill').style.width=Math.max(p,4)+'%';$('bar').classList.toggle('light',left===0);}
+  setCount();
+  week.forEach(([t,s,msg])=>{const b=document.createElement('button');b.className='stone';b.innerHTML=t+'<small>'+s+'</small>';b.setAttribute('aria-label','Soltar: '+t);
+    b.addEventListener('click',()=>{if(b.classList.contains('fly'))return;b.classList.add('fly');$('said').textContent=msg;left--;setCount();navigator.vibrate&&navigator.vibrate(12);
+      if(!left){setTimeout(()=>{$('proud').classList.add('show');hearts(22);toast('Ya no pesa nada 🎈');},900);}});
+    sb.appendChild(b);});
+
+  /* 3 · frasquito de te amo */
+  const notes=[
+    'Te amo cuando llegas cansada y aun así me escribes “amor”.',
+    'Te amo porque eres valiente, aunque a veces no lo sientas.',
+    'Te amo con tus dramas, tus “JAJAJAJA” y todas tus versiones.',
+    'Te amo porque contigo hasta un mensaje de buenas noches se siente especial.',
+    'Te amo porque vas a ser una paramédica increíble, y ya eres una persona increíble.',
+    'Te amo desde el 13 de octubre de forma oficial, y desde antes en secreto.',
+    'Te amo aunque estemos en estados diferentes. La distancia no me quita nada de lo que siento.',
+    'Te amo porque tu risa me arregla el día entero.',
+    'Te amo cuando estás fuerte y también cuando necesitas que te abracen.',
+    'Te amo más de lo que te digo, y eso que te lo digo mucho.'
+  ];
+  let order=notes.map((_,i)=>i).sort(()=>Math.random()-.5),ni=0;
+  $('jar').addEventListener('click',()=>{const j=$('jar');j.classList.remove('shake');void j.offsetWidth;j.classList.add('shake');
+    const n=$('note');n.classList.remove('pop');void n.offsetWidth;
+    n.innerHTML='<small>Notita '+(ni%notes.length+1)+' de '+notes.length+'</small><p>'+notes[order[ni%notes.length]]+'</p>';n.classList.add('pop');
+    ni++;$('jarcount').textContent=ni>=notes.length?'Ya las sacaste todas… y aun así hay infinitas más 💗':'Te quedan '+(notes.length-ni)+' notitas en el frasco';
+    if(ni===notes.length)hearts(18);navigator.vibrate&&navigator.vibrate(10);});
+
+  /* 4 · abrazo: mantener presionado */
+  const hug=$('hug'),ring=$('hugRing');let hp=0,holding=false,last=0,done=false;
+  const steps=['Imagínate que estoy ahí contigo…','Un poquito más…','Te estoy apretando fuerte, fuerte…','Y no te suelto todavía…'];
+  function tick(ts){const dt=last?ts-last:16;last=ts;if(!done)hp=Math.max(0,Math.min(1,hp+(holding?dt/2600:-dt/900)));ring.style.strokeDashoffset=428*(1-hp);
+    if(!done)$('hugmsg').textContent=steps[Math.min(3,Math.floor(hp*4))];
+    if(hp>=1&&!done){done=true;hug.classList.add('done');$('hugmsg').textContent='Abrazo entregado. Y en cuanto pueda, te lo doy en persona 🤍';hearts(26);toast('Abrazo enviado 🫂');navigator.vibrate&&navigator.vibrate([30,50,30]);return;}
+    if(holding||hp>0)requestAnimationFrame(tick);else last=0;}
+  function start(e){e.preventDefault();if(done){hearts(8);return;}holding=true;last=0;requestAnimationFrame(tick);}
+  function stop(){holding=false;}
+  hug.addEventListener('pointerdown',start);['pointerup','pointerleave','pointercancel'].forEach(ev=>hug.addEventListener(ev,stop));
+  hug.addEventListener('contextmenu',e=>e.preventDefault());
+  hug.addEventListener('keydown',e=>{if((e.key===' '||e.key==='Enter')&&!holding)start(e);});hug.addEventListener('keyup',stop);
+
+  /* sorpresa */
+  const peeks=['Todavía no se abre 🤭','Nop, aún no… pero ya casi','Es de paciencia, amor 😌','Muy pronto, te lo prometo 💗'];let pk=0;
+  $('gift').addEventListener('click',()=>{$('peek').textContent=peeks[pk++%peeks.length];navigator.vibrate&&navigator.vibrate(15);});
+})();
+</script>
+</body>
+</html>
