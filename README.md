@@ -13,3 +13,4 @@ Todas las cartitas que le he hecho a Osma, en un mismo lugar y en orden.
 | 27 oct 2026 | Perdóname, amor 🤍 | `cartas/perdoname` |
 | 31 oct 2026 | Ya puedes descansar, amor 🌙 | `cartas/descansa` |
 | 31 oct 2026 | ¿Dulce o beso? 🎃 | `cartas/dulce-o-beso` |
+| 9 nov 2026 | Fue un malentendido, amor 🧶 | `cartas/malentendido` |
