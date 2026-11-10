@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1a0f2e">
+<title>¿Dulce o beso? 🎃</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@400;500;600;700;800&family=Parisienne&display=swap">
+<style>
+  /* Noche de Halloween tierna: calabacitas que guardan dulces o besos, una bolsita que se va llenando y un fantasmita enamorado */
+  :root{
+    --night:#1a0f2e; --plum:#2c1748; --pumpkin:#ff8a3d; --pumpkin2:#e8622a; --candy:#ff7fb0; --lime:#b8f27a;
+    --gold:#ffd27a; --lav:#cdbfff; --paper:#fff8ef; --ink:#33243f; --wine:#8a2f55; --line:rgba(255,255,255,.16);
+    --display:"Cormorant Garamond",Georgia,serif; --body:Montserrat,"Segoe UI",Arial,sans-serif; --hand:Parisienne,"Brush Script MT",cursive;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  html{scroll-behavior:smooth}
+  body{margin:0;min-height:100vh;color:#fdeedf;font-family:var(--body);overflow-x:hidden;
+    background:radial-gradient(70% 45% at 50% 0%,#5a2a5e 0%,transparent 70%),linear-gradient(180deg,var(--plum) 0%,var(--night) 55%,#0d0718 100%) fixed;background-color:var(--night)}
+  button{font:inherit;cursor:pointer;color:inherit}
+  button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+  #sky{position:fixed;inset:0;z-index:-1;pointer-events:none}
+  .moon{position:fixed;left:-50px;top:5vh;width:190px;aspect-ratio:1;max-width:48vw;border-radius:50%;z-index:-1;pointer-events:none;
+    background:radial-gradient(circle at 60% 40%,#fffbe8 0,#ffe39a 55%,#ffb85a 100%);box-shadow:0 0 70px #ffcf7a80,0 0 180px #ff9a4a30;opacity:.9}
+  .rain{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:60}
+  .rain span{position:absolute;top:-40px;font-size:var(--s,24px);animation:drop var(--t,4s) linear forwards}
+  @keyframes drop{to{transform:translate3d(var(--dx,0),112vh,0) rotate(var(--rot,180deg))}}
+
+  .wrap{width:min(720px,100%);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0}
+
+  /* bolsita fija */
+  .bag{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:#1a0f2ecc;border-bottom:1px solid var(--line)}
+  .bag .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
+  .bag .lbl{font-size:.66rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--lav)}
+  .bag .tally{display:flex;gap:14px;font-weight:700;font-size:.9rem;font-variant-numeric:tabular-nums}
+  .bag .tally span{display:inline-flex;gap:6px;align-items:center}
+  .bag .tally b.bump{animation:bump .4s ease}
+  @keyframes bump{50%{transform:scale(1.5);color:var(--gold)}}
+
+  header{padding-block:46px 14px;text-align:center}
+  .date{display:inline-block;padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:#ffffff10;color:var(--gold);font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+  .ghost-hero{width:130px;margin:22px auto 0;display:block;animation:hover 3s ease-in-out infinite;filter:drop-shadow(0 18px 26px #0008)}
+  @keyframes hover{50%{transform:translateY(-10px)}}
+  header h1{font-size:clamp(3.2rem,13vw,6rem);line-height:.9;letter-spacing:-.035em;color:#fff3e4;margin-top:6px}
+  header h1 em{display:block;font-family:var(--hand);font-style:normal;font-weight:400;font-size:.5em;color:var(--pumpkin);letter-spacing:0;margin-top:10px;text-shadow:0 0 24px #ff8a3d55}
+  .lead{color:#efdfe9;line-height:1.8;font-size:clamp(1rem,2.2vw,1.1rem);max-width:52ch;margin:16px auto 0}
+
+  .ch{padding-block:34px}
+  .card{position:relative;border:1px solid var(--line);border-radius:30px;background:linear-gradient(155deg,#ffffff14,#ffffff05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:clamp(22px,5vw,42px);box-shadow:0 30px 80px #0006;overflow:hidden}
+  .tag{display:inline-flex;gap:8px;align-items:center;color:var(--pumpkin);font-size:.7rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+  .tag span{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--pumpkin);color:#2a1408;font-size:.72rem;letter-spacing:0}
+  .ch h2{font-size:clamp(2rem,6vw,3rem);line-height:1.04;margin-top:10px;color:#fff3e4}
+  .ch p.sub{color:#e3d3e6;line-height:1.75;margin:10px 0 0;max-width:52ch}
+  .btn{border:0;border-radius:999px;padding:15px 26px;font-weight:800;color:#2a1408;background:linear-gradient(120deg,var(--gold),var(--pumpkin));box-shadow:0 14px 34px #ff8a3d40;transition:transform .2s}
+  .btn.pink{background:linear-gradient(120deg,#ffc1d6,var(--candy));color:#3a0f24;box-shadow:0 14px 34px #ff7fb040}
+  .btn:active{transform:scale(.95)}
+
+  /* 1 · calabacitas */
+  .patch{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:24px}
+  .pk{position:relative;border:0;background:none;padding:0;aspect-ratio:1;perspective:700px}
+  .pk .face{position:absolute;inset:0;display:grid;place-items:center;transition:transform .7s cubic-bezier(.3,1.3,.5,1);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+  .pk .front svg{width:92%;filter:drop-shadow(0 10px 16px #0007);transition:transform .2s}
+  .pk:hover .front svg{transform:translateY(-4px) rotate(-3deg)}
+  .pk .back{transform:rotateY(180deg);border-radius:22px;padding:10px;text-align:center;flex-direction:column;background:var(--paper);color:var(--ink);box-shadow:0 14px 30px #0006;display:flex;justify-content:center;align-items:center}
+  .pk.kiss .back{background:linear-gradient(160deg,#fff0f5,#ffd3e2)}
+  .pk .back i{font-style:normal;font-size:2rem;line-height:1}
+  .pk .back b{display:block;margin-top:4px;font-size:.6rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--pumpkin2)}
+  .pk.kiss .back b{color:#d0457a}
+  .pk.open .front{transform:rotateY(-180deg)}
+  .pk.open .back{transform:rotateY(0)}
+  .pk.open{cursor:default}
+  .reveal{margin-top:18px;min-height:3.6em;text-align:center;font-family:var(--display);font-style:italic;font-size:1.35rem;line-height:1.4;color:#fff1e6}
+  .hint{display:block;text-align:center;font-size:.72rem;color:var(--lav);letter-spacing:.12em;text-transform:uppercase}
+  @media (max-width:420px){.patch{gap:10px}.pk .back i{font-size:1.6rem}}
+
+  /* 2 · la pregunta */
+  .ask{text-align:center}
+  .ask h2{font-size:clamp(2.8rem,10vw,4.6rem)}
+  .choices{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px}
+  .answer{margin-top:22px;min-height:2em;font-family:var(--display);font-size:clamp(1.3rem,3.6vw,1.6rem);line-height:1.45;color:#fff3e9;max-width:38ch;margin-inline:auto}
+  .answer em{font-family:var(--hand);font-style:normal;color:var(--gold);font-size:1.2em}
+
+  /* 3 · fantasmita */
+  .boo{display:grid;grid-template-columns:minmax(0,140px) minmax(0,1fr);gap:20px;align-items:center;margin-top:22px}
+  .boo button{border:0;background:none;padding:0;width:100%;max-width:140px}
+  .boo svg{width:100%;animation:hover 2.6s ease-in-out infinite;filter:drop-shadow(0 14px 22px #0008)}
+  .boo button.spook svg{animation:spook .5s ease}
+  @keyframes spook{40%{transform:scale(1.25) rotate(-6deg)}}
+  .bubble{position:relative;background:var(--paper);color:var(--ink);border-radius:20px;padding:18px 20px;box-shadow:0 18px 40px #0006;font-family:var(--display);font-size:1.3rem;line-height:1.4;min-height:96px;display:flex;align-items:center}
+  .bubble::before{content:"";position:absolute;left:-10px;top:40%;border:10px solid transparent;border-right-color:var(--paper);border-left:0}
+  @media (max-width:520px){.boo{grid-template-columns:1fr;justify-items:center;text-align:center}.bubble::before{display:none}}
+
+  /* 4 · carta */
+  .letter{margin-top:22px;background:var(--paper);color:var(--ink);border-radius:8px;padding:clamp(24px,6vw,46px);box-shadow:0 24px 60px #0007;
+    background-image:repeating-linear-gradient(transparent 0 31px,#f3e3d6 31px 32px);background-position:0 20px}
+  .letter .to{font-family:var(--hand);font-size:2.1rem;color:var(--wine);margin:0 0 6px}
+  .letter p{margin:0 0 16px;line-height:2}
+  .letter strong{color:var(--wine)}
+  .letter .sign{font-family:var(--hand);font-size:1.9rem;color:var(--wine);text-align:right;margin:0}
+
+  /* cupón */
+  .ticket{position:relative;margin-top:24px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center;background:linear-gradient(135deg,var(--pumpkin),#ff6a6a 60%,var(--candy));color:#2a0f14;border-radius:18px;padding:18px 20px;box-shadow:0 18px 40px #0006}
+  .ticket::before,.ticket::after{content:"";position:absolute;top:50%;width:22px;height:22px;border-radius:50%;background:#1d1131;translate:0 -50%}
+  .ticket::before{left:-11px}.ticket::after{right:-11px}
+  .ticket .ico{font-size:2.4rem}
+  .ticket small{font-size:.6rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+  .ticket b{display:block;font-family:var(--display);font-size:1.5rem;line-height:1.1;margin-top:2px}
+  .ticket span{display:block;font-size:.78rem;margin-top:4px;opacity:.85}
+
+  /* sorpresa */
+  .soon{padding-block:30px 20px;text-align:center}
+  .cauldron{border:0;background:none;padding:0;width:130px;margin:0 auto;display:block;filter:drop-shadow(0 14px 26px #0008)}
+  .cauldron .bub{animation:bub 2.2s ease-in infinite;transform-box:fill-box;transform-origin:center}
+  .cauldron .bub:nth-of-type(2){animation-delay:.7s}.cauldron .bub:nth-of-type(3){animation-delay:1.4s}
+  @keyframes bub{0%{transform:translateY(8px) scale(.4);opacity:0}30%{opacity:1}100%{transform:translateY(-26px) scale(1);opacity:0}}
+  .soon h2{font-family:var(--hand);font-weight:400;font-size:clamp(2.4rem,8vw,3.4rem);color:var(--lime);margin-top:12px;text-shadow:0 0 30px #b8f27a55}
+  .soon p{color:#e3d3e6;line-height:1.7;max-width:40ch;margin:8px auto 0}
+  .soon .peek{margin-top:10px;min-height:1.3em;font-size:.85rem;color:var(--gold);font-weight:600}
+
+  .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));translate:-50% 0;z-index:70;padding:12px 18px;border-radius:999px;background:var(--paper);color:var(--ink);font-weight:700;font-size:.85rem;box-shadow:0 14px 34px #0006;opacity:0;transform:translateY(20px);transition:.35s;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
+  .toast.on{opacity:1;transform:none}
+  footer{text-align:center;padding-block:20px 70px;color:#bba8cf;font-size:.8rem}
+  footer .h{font-family:var(--hand);font-size:1.7rem;color:var(--pumpkin);display:block;margin-bottom:4px}
+  @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="moon" aria-hidden="true"></div>
+<div class="rain" id="rain" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<nav class="bag" aria-label="Tu bolsita de Halloween">
+  <div class="wrap">
+    <span class="lbl">Tu bolsita 🎃</span>
+    <div class="tally" aria-live="polite">
+      <span>🍬 <b id="nDulce">0</b></span>
+      <span>💋 <b id="nBeso">0</b></span>
+    </div>
+  </div>
+</nav>
+
+<header class="wrap">
+  <span class="date">31 de octubre · Halloween · para Osma</span>
+  <svg class="ghost-hero" viewBox="0 0 130 140" aria-hidden="true">
+    <path d="M65 6C34 6 16 30 16 62v66l14-12 12 12 12-12 11 12 11-12 12 12 12-12 14 12V62C114 30 96 6 65 6z" fill="#fff8f2"/>
+    <ellipse cx="48" cy="62" rx="7" ry="9" fill="#2a1a33"/><ellipse cx="82" cy="62" rx="7" ry="9" fill="#2a1a33"/>
+    <ellipse cx="38" cy="78" rx="8" ry="5" fill="#ff9fb8" opacity=".8"/><ellipse cx="92" cy="78" rx="8" ry="5" fill="#ff9fb8" opacity=".8"/>
+    <path d="M56 80q9 8 18 0" stroke="#2a1a33" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M104 22c-4-8 8-12 10-4 2-8 14-4 10 4-2 6-10 10-10 10s-8-4-10-10z" fill="#ff7fb0"/>
+  </svg>
+  <h1>¿Dulce o beso?<em>Feliz Halloween mi amor</em></h1>
+  <p class="lead">Hoy no se pide “dulce o truco”. Hoy se pide <b>dulce o beso</b>, y aquí ganas siempre. Abre las calabacitas, llena tu bolsita y no te asustes: el único fantasma de esta carta está enamorado de ti.</p>
+</header>
+
+<main>
+  <section class="ch wrap">
+    <div class="card">
+      <span class="tag"><span>1</span>El huerto de calabacitas</span>
+      <h2>Toca cada calabacita</h2>
+      <p class="sub">Unas guardan un dulce, otras un beso. Todas son para ti.</p>
+      <div class="patch" id="patch"></div>
+      <p class="reveal" id="reveal" aria-live="polite">¿Cuál abres primero? 🎃</p>
+      <span class="hint" id="pkleft"></span>
+    </div>
+  </section>
+
+  <section class="ch wrap">
+    <div class="card ask">
+      <span class="tag"><span>2</span>La pregunta de hoy</span>
+      <h2>¿Dulce o beso?</h2>
+      <div class="choices">
+        <button class="btn" id="bDulce">🍬 Dulce</button>
+        <button class="btn pink" id="bBeso">💋 Beso</button>
+      </div>
+      <p class="answer" id="answer" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="ch wrap">
+    <div class="card">
+      <span class="tag"><span>3</span>Un fantasmita</span>
+      <h2>Te quiere decir algo… ¡Boo!</h2>
+      <p class="sub">Tócalo. Es medio penoso, pero tiene mucho que decirte.</p>
+      <div class="boo">
+        <button id="boo" aria-label="Tocar al fantasmita">
+          <svg viewBox="0 0 130 140" aria-hidden="true">
+            <path d="M65 6C34 6 16 30 16 62v66l14-12 12 12 12-12 11 12 11-12 12 12 12-12 14 12V62C114 30 96 6 65 6z" fill="#fff8f2"/>
+            <path d="M40 62q8-8 16 0M74 62q8-8 16 0" stroke="#2a1a33" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <ellipse cx="38" cy="76" rx="9" ry="6" fill="#ff9fb8"/><ellipse cx="92" cy="76" rx="9" ry="6" fill="#ff9fb8"/>
+            <path d="M58 80q7 6 14 0" stroke="#2a1a33" stroke-width="4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="bubble" id="bubble" aria-live="polite">Boo… 👻</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch wrap">
+    <div class="card">
+      <span class="tag"><span>4</span>Tu cartita de Halloween</span>
+      <h2>Lo que de verdad te quiero decir</h2>
+      <article class="letter">
+        <p class="to">Mi Osma:</p>
+        <p>Feliz Halloween, amor. Este es nuestro primer 31 de octubre juntos como novios, y aunque estemos lejitos, no lo quería dejar pasar sin hacerte algo.</p>
+        <p>Si me preguntaras “¿dulce o truco?”, yo te contestaría que tú eres lo más dulce que tengo. Y si fuera “dulce o beso”, te daría las dos, porque contigo no sé escoger solo una cosa.</p>
+        <p>No hay disfraz que me guste más que tu sonrisa, ni susto que me asuste más que pensar en no tenerte. Por eso te lo digo bien claro: <strong>te amo muchísimo</strong>. Te amo hoy, mañana y todos los días que siguen.</p>
+        <p>Gracias por ser mi novia, por tener paciencia conmigo y por hacer que cada día, hasta los más cansados, se sientan bonitos.</p>
+        <p class="sign">Tu novio, Gabriel 🎃💗</p>
+      </article>
+      <div class="ticket">
+        <span class="ico" aria-hidden="true">💋</span>
+        <div><small>Vale oficial de Halloween</small><b>Todos los besos que te debo</b><span>Acumulables, sin fecha de caducidad y cobrables en persona en cuanto nos veamos.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap soon" aria-labelledby="soonT">
+    <button class="cauldron" id="cauldron" aria-label="Un caldero burbujeando">
+      <svg viewBox="0 0 130 120" aria-hidden="true">
+        <circle class="bub" cx="48" cy="36" r="7" fill="#b8f27a"/><circle class="bub" cx="70" cy="30" r="9" fill="#d6ff9e"/><circle class="bub" cx="88" cy="38" r="6" fill="#b8f27a"/>
+        <ellipse cx="65" cy="48" rx="52" ry="12" fill="#8fd04f"/>
+        <path d="M14 50c0 36 22 58 51 58s51-22 51-58z" fill="#2b2238"/>
+        <ellipse cx="65" cy="48" rx="54" ry="10" fill="none" stroke="#3d3150" stroke-width="7"/>
+        <path d="M30 108l-6 10M100 108l6 10" stroke="#2b2238" stroke-width="7" stroke-linecap="round"/>
+        <path d="M65 90c-9-6-14-10-14-15a7 7 0 0 1 14-2 7 7 0 0 1 14 2c0 5-5 9-14 15z" fill="#ff7fb0"/>
+      </svg>
+    </button>
+    <h2 id="soonT">Pronto habrá una sorpresa…</h2>
+    <p>Algo se está cocinando en este caldero, y no es un hechizo. Todavía no está listo, pero muy pronto lo vas a ver.</p>
+    <p class="peek" id="peek" aria-live="polite"></p>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span class="h">te amo mi amor</span>
+  Hecho para ti el 31 de octubre, nuestro primer Halloween juntos.
+</footer>
+
+<script>
+(()=>{
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $=id=>document.getElementById(id);
+  const dpr=Math.min(devicePixelRatio||1,2);
+  let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2200);}
+  function rain(set,n=18){if(reduce)return;const box=$('rain');for(let i=0;i<n;i++){const s=document.createElement('span');s.textContent=set[i%set.length];
+    s.style.left=Math.random()*100+'vw';s.style.setProperty('--t',(3+Math.random()*3)+'s');s.style.setProperty('--dx',(Math.random()*120-60)+'px');s.style.setProperty('--rot',(Math.random()*360-180)+'deg');s.style.setProperty('--s',(18+Math.random()*16)+'px');s.style.animationDelay=Math.random()*1.2+'s';box.appendChild(s);setTimeout(()=>s.remove(),8000);}}
+
+  /* bolsita */
+  let nD=0,nB=0;
+  function add(kind,k=1){if(kind==='d'){nD+=k;const b=$('nDulce');b.textContent=nD;b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');}
+    else{nB+=k;const b=$('nBeso');b.textContent=nB;b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');}}
+
+  /* cielo con estrellas y murciélagos */
+  const c=$('sky'),x=c.getContext('2d');let stars=[],bats=[];
+  function size(){c.width=innerWidth*dpr;c.height=innerHeight*dpr;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';
+    stars=Array.from({length:Math.round(innerWidth*innerHeight/5500)},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:(Math.random()*1.2+.3)*dpr,p:Math.random()*6.3}));
+    bats=Array.from({length:5},()=>({x:Math.random()*c.width,y:(.08+Math.random()*.4)*c.height,v:(.4+Math.random()*.6)*dpr,s:(8+Math.random()*8)*dpr,p:Math.random()*6.3}));}
+  function bat(b,t){const f=Math.sin(t/120+b.p)*b.s*.6,y=b.y+Math.sin(t/900+b.p)*14*dpr;x.fillStyle='#0b0614';x.beginPath();
+    x.moveTo(b.x,y);x.quadraticCurveTo(b.x-b.s*.7,y-f,b.x-b.s*1.6,y-f*.6);x.quadraticCurveTo(b.x-b.s,y+b.s*.1,b.x-b.s*.4,y+b.s*.3);x.lineTo(b.x,y+b.s*.2);
+    x.lineTo(b.x+b.s*.4,y+b.s*.3);x.quadraticCurveTo(b.x+b.s,y+b.s*.1,b.x+b.s*1.6,y-f*.6);x.quadraticCurveTo(b.x+b.s*.7,y-f,b.x,y);x.fill();}
+  function draw(t){x.clearRect(0,0,c.width,c.height);for(const s of stars){x.globalAlpha=reduce?.6:.25+.5*Math.abs(Math.sin(s.p+t/1100));x.fillStyle='#fff';x.beginPath();x.arc(s.x,s.y,s.r,0,6.3);x.fill();}
+    x.globalAlpha=.85;for(const b of bats){bat(b,t);if(!reduce){b.x+=b.v;if(b.x>c.width+40*dpr)b.x=-40*dpr;}}x.globalAlpha=1;if(!reduce)requestAnimationFrame(draw);}
+  size();addEventListener('resize',size);requestAnimationFrame(draw);
+
+  /* 1 · calabacitas */
+  const pumpkins=[
+    ['d','🍫','Dulce: eres la persona más dulce que conozco. Ni todo el chocolate del mundo te gana.'],
+    ['b','💋','Beso: uno en la frente, por todo lo que trabajaste esta semana.'],
+    ['d','🍭','Dulce: tu risa. Es mi dulce favorito y nunca me empalaga.'],
+    ['b','😘','Beso: uno en el cachete, de esos que se dan sin avisar.'],
+    ['d','🍬','Dulce: un “te amo” extra, por si los de hoy no fueron suficientes.'],
+    ['b','💞','Beso: el más largo de todos, guardado para cuando nos volvamos a ver.']
+  ];
+  const svgPk=(i)=>`<svg viewBox="0 0 100 100"><path d="M50 22c2-8 6-14 12-16" stroke="#5a7a2a" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="32" cy="58" rx="22" ry="30" fill="#e8622a"/><ellipse cx="68" cy="58" rx="22" ry="30" fill="#e8622a"/><ellipse cx="50" cy="58" rx="22" ry="32" fill="#ff8a3d"/>
+    <path d="M36 52l6-8 6 8zM52 52l6-8 6 8z" fill="#2a1408"/><path d="M38 68q12 ${i%2?10:6} 24 0l-4 4-4-4-4 4-4-4-4 4z" fill="#2a1408"/>
+    ${i%3===1?'<ellipse cx="30" cy="64" rx="5" ry="3" fill="#ff7fb0" opacity=".7"/><ellipse cx="70" cy="64" rx="5" ry="3" fill="#ff7fb0" opacity=".7"/>':''}</svg>`;
+  const patch=$('patch');let left=pumpkins.length;
+  function upd(){$('pkleft').textContent=left?left+(left===1?' calabacita por abrir':' calabacitas por abrir'):'¡Huerto completo! 🎃';}
+  upd();
+  pumpkins.forEach(([k,ic,msg],i)=>{const b=document.createElement('button');b.className='pk'+(k==='b'?' kiss':'');b.setAttribute('aria-label','Calabacita '+(i+1));
+    b.innerHTML=`<span class="face front">${svgPk(i)}</span><span class="face back"><i>${ic}</i><b>${k==='d'?'Dulce':'Beso'}</b></span>`;
+    b.addEventListener('click',()=>{if(b.classList.contains('open'))return;b.classList.add('open');b.setAttribute('aria-label',(k==='d'?'Dulce':'Beso')+' abierto');
+      $('reveal').textContent=msg;add(k);left--;upd();navigator.vibrate&&navigator.vibrate(12);
+      rain(k==='d'?['🍬','🍭','🍫']:['💋','💗'],6);
+      if(!left){setTimeout(()=>{toast('¡Bolsita llena! 🎃');rain(['🍬','💋','🍭','💗','🎃','🍫'],30);},600);}});
+    patch.appendChild(b);});
+
+  /* 2 · dulce o beso */
+  let asked=0;
+  $('bDulce').addEventListener('click',()=>{asked++;add('d');add('b');rain(['🍬','🍭','🍫','💋'],24);
+    $('answer').innerHTML=asked>1?'¿Otra vez? Va: otro dulce y otro beso. <em>Contigo nunca es solo uno.</em>':'Aquí está tu dulce 🍬… y también un beso, porque <em>contigo no sé escoger.</em>';toast('+1 🍬  +1 💋');});
+  $('bBeso').addEventListener('click',()=>{asked++;add('b',3);rain(['💋','💗','💞','😘'],30);
+    $('answer').innerHTML=asked>1?'Sabía que ibas a volver por más 😌 <em>Tres besos más para ti.</em>':'Buena elección 😘 Te mando tres besos de lejitos: <em>uno en la frente, uno en el cachete y uno donde tú quieras.</em>';toast('+3 💋');});
+
+  /* 3 · fantasmita */
+  const boos=['Boo… ¡Boo-nita! Así te veo siempre 👻','Dicen que los fantasmas atraviesan paredes. Yo atravesaría estados para verte.','No vengo a asustarte, vengo a decirte que Gabriel te ama muchísimo.','Te sigo a todos lados… igualito que él te sigue pensando todo el día.','Feliz Halloween mi amor. 💗'];
+  let bi=0;$('boo').addEventListener('click',()=>{const b=$('boo');b.classList.remove('spook');void b.offsetWidth;b.classList.add('spook');$('bubble').textContent=boos[bi%boos.length];bi++;
+    if(bi===boos.length){rain(['👻','💗'],16);}navigator.vibrate&&navigator.vibrate(15);});
+
+  /* sorpresa */
+  const peeks=['Todavía está burbujeando… 🫧','Nop, aún no está lista 🤭','Le falta un ingrediente: tantita paciencia 😌','Muy pronto, te lo prometo 💚'];let pk=0;
+  $('cauldron').addEventListener('click',()=>{$('peek').textContent=peeks[pk++%peeks.length];navigator.vibrate&&navigator.vibrate(15);});
+})();
+</script>
+</body>
+</html>
