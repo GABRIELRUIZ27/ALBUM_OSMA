@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#120e26">
+<title>Feliz primer mes, amorcito de mi vida 🌕</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@400;500;600;700;800&family=Parisienne&display=swap">
+<style>
+  /* Nuestro primer mes: un sobre con sello, una luna que se llena en 31 días, un corazón de melón y la carta */
+  :root{
+    --paper:#fffaf3; --ink:#3a2e48; --muted:#7c7090; --rose:#ff9fb8; --wine:#8a3a5c; --cream:#fff1e2;
+    --gold:#ffd58a; --amber:#ffb26b; --lav:#cdbfff; --glass:rgba(255,255,255,.08); --line:rgba(255,255,255,.16);
+    --display:"Cormorant Garamond",Georgia,serif; --body:Montserrat,"Segoe UI",Arial,sans-serif; --hand:Parisienne,"Brush Script MT",cursive;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  html{scroll-behavior:smooth}
+  body{margin:0;min-height:100vh;color:var(--cream);font-family:var(--body);overflow-x:hidden;
+    background:radial-gradient(80% 50% at 50% 0%,#4f3d86 0%,transparent 70%),linear-gradient(180deg,#2a1f45 0%,#1b1533 50%,#120e26 100%) fixed;background-color:#1b1533}
+  body.locked{overflow:hidden}
+  button{font:inherit;cursor:pointer;color:inherit}
+  button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+  #sky{position:fixed;inset:0;z-index:-1;pointer-events:none}
+  .moonbg{position:fixed;right:-60px;top:6vh;width:200px;aspect-ratio:1;max-width:50vw;border-radius:50%;z-index:-1;pointer-events:none;
+    background:radial-gradient(circle at 40% 40%,#fffdf2 0,#ffe8b5 50%,#ffcf8a 100%);box-shadow:0 0 70px #ffe0a080,0 0 170px #ffb87830;opacity:.85}
+  .floaty{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:150}
+  .heartp{position:absolute;bottom:-30px;font-size:var(--s,18px);animation:up var(--t,6s) ease-in forwards}
+  @keyframes up{to{transform:translate3d(var(--dx,0),-115vh,0) rotate(var(--rot,20deg));opacity:0}}
+  #fx{position:fixed;inset:0;z-index:140;pointer-events:none}
+
+  /* ───────── apertura ───────── */
+  .intro{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:24px;text-align:center;
+    background:radial-gradient(70% 50% at 50% 30%,#3d2c72 0%,transparent 70%),linear-gradient(180deg,#1d1640,#0e0b22);transition:opacity 1.1s ease,visibility 1.1s}
+  .intro.gone{opacity:0;visibility:hidden}
+  .stage{display:grid;justify-items:center;gap:18px;width:min(460px,100%)}
+  .stage.fade{animation:fadeOut .6s ease forwards}
+  .stage.show{animation:fadeIn .8s ease both}
+  @keyframes fadeOut{to{opacity:0;transform:scale(.95)}}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(16px) scale(.97)}}
+  .intro .to{font-family:var(--hand);font-size:clamp(2rem,8vw,2.8rem);color:var(--gold);text-shadow:0 0 26px #ffd58a55;line-height:1.1}
+  .intro .hint{font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--lav)}
+
+  .env{position:relative;width:min(320px,80vw);aspect-ratio:3/2;perspective:900px;margin-top:clamp(70px,14vh,120px)}
+  .env .back{position:absolute;inset:0;border-radius:12px;background:#c4547b;box-shadow:0 30px 70px #0009}
+  .env .paper{position:absolute;left:7%;right:7%;top:8%;height:84%;border-radius:8px;background:var(--paper);z-index:1;display:grid;place-items:center;color:var(--wine);
+    font-family:var(--hand);font-size:clamp(1.8rem,7vw,2.4rem);transition:transform 1s cubic-bezier(.3,1.3,.5,1) .55s;box-shadow:0 6px 20px #0003}
+  .env .paper small{display:block;font-family:var(--body);font-size:.6rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:-6px}
+  .env .front{position:absolute;inset:0;border-radius:12px;z-index:2;background:linear-gradient(160deg,#ff9fb8,#e7799c);clip-path:polygon(0 0,50% 56%,100% 0,100% 100%,0 100%)}
+  .env .flap{position:absolute;left:0;right:0;top:0;height:62%;z-index:3;background:linear-gradient(180deg,#f08fae,#d9668c);clip-path:polygon(0 0,100% 0,50% 100%);
+    transform-origin:top center;transition:transform .7s ease,z-index 0s .35s;border-radius:12px 12px 0 0}
+  .env.open .flap{transform:rotateX(180deg);z-index:0}
+  .env.open .paper{transform:translateY(-55%)}
+  .seal{position:absolute;left:50%;top:62%;translate:-50% -50%;z-index:5;width:74px;height:74px;border-radius:50%;border:0;padding:0;
+    background:radial-gradient(circle at 35% 30%,#ff8a8a,#c8233f 60%,#8f1630);color:#ffe6d0;font-family:var(--display);font-weight:700;font-size:2rem;line-height:1;
+    box-shadow:0 8px 20px #0007,inset 0 0 0 5px #ffffff22;animation:sealbeat 1.8s ease-in-out infinite;transition:opacity .4s,transform .4s}
+  .seal small{display:block;font-family:var(--body);font-size:.5rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-top:1px}
+  @keyframes sealbeat{0%,100%{transform:scale(1)}15%{transform:scale(1.1)}30%{transform:scale(1)}45%{transform:scale(1.06)}}
+  .env.open .seal{opacity:0;transform:scale(1.6);pointer-events:none}
+
+  .moonstage canvas{width:min(230px,60vw);aspect-ratio:1;display:block;filter:drop-shadow(0 0 40px #ffe0a070)}
+  .daycount{font-family:var(--display);font-weight:700;font-size:clamp(3.6rem,15vw,5rem);line-height:.9;color:var(--gold);font-variant-numeric:tabular-nums;text-shadow:0 0 40px #ffd58a66}
+  .daycount small{display:block;font-family:var(--body);font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--lav);margin-top:8px}
+  .datefly{font-family:var(--display);font-style:italic;font-size:1.4rem;color:#fff4ea;min-height:1.5em}
+  .moonnote{color:#ddd3ee;line-height:1.7;max-width:34ch;opacity:0;transition:opacity .8s}
+  .moonnote.on{opacity:1}
+
+  .big1{position:relative;font-family:var(--display);font-weight:700;font-size:clamp(8rem,34vw,12rem);line-height:.8;color:var(--gold);text-shadow:0 0 70px #ffd58a88;animation:pop1 1.1s cubic-bezier(.3,1.6,.5,1) both}
+  .big1 span{position:absolute;right:-.55em;bottom:.05em;font-family:var(--hand);font-weight:400;font-size:.32em;color:var(--rose);text-shadow:0 0 20px #ff9fb8aa}
+  @keyframes pop1{from{transform:scale(.2) rotate(-12deg);opacity:0}}
+  .final h2{font-family:var(--hand);font-weight:400;font-size:clamp(2.6rem,11vw,3.8rem);line-height:1.05;color:#fff6ea;margin:0;animation:fadeIn .9s ease .4s both}
+  .final p{margin:0;color:#e6ddf3;line-height:1.7;animation:fadeIn .9s ease .7s both}
+  .final .btn{animation:fadeIn .9s ease 1s both}
+  .skip{position:absolute;right:max(16px,env(safe-area-inset-right,0px));top:max(16px,env(safe-area-inset-top,0px));border:1px solid var(--line);background:#ffffff0d;border-radius:999px;padding:8px 14px;font-size:.7rem;font-weight:700;letter-spacing:.1em;color:#cfc4e8}
+
+  /* ───────── página ───────── */
+  .wrap{width:min(720px,100%);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0}
+  header{padding-block:56px 16px;text-align:center}
+  .date{display:inline-block;padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:var(--glass);color:var(--lav);font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+  .ring{position:relative;width:150px;height:150px;margin:26px auto 6px;display:grid;place-items:center}
+  .ring svg{position:absolute;inset:0;width:100%;height:100%;animation:spin 30s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .ring b{font-family:var(--display);font-weight:700;font-size:4.6rem;line-height:1;color:var(--gold);text-shadow:0 0 40px #ffd58a77}
+  .ring b small{display:block;font-family:var(--hand);font-weight:400;font-size:1.4rem;color:var(--rose);margin-top:-6px}
+  header h1{font-size:clamp(3rem,11vw,5.4rem);line-height:.92;letter-spacing:-.03em;color:#fff6ea}
+  header h1 em{display:block;font-family:var(--hand);font-style:normal;font-weight:400;font-size:.55em;color:var(--rose);letter-spacing:0;margin-top:8px}
+  .lead{color:#e6ddf3;line-height:1.8;font-size:clamp(1rem,2.2vw,1.1rem);max-width:52ch;margin:16px auto 0}
+
+  .ch{padding-block:36px}
+  .card{position:relative;border:1px solid var(--line);border-radius:30px;background:linear-gradient(155deg,#ffffff14,#ffffff06);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:clamp(22px,5vw,42px);box-shadow:0 30px 80px #0005;overflow:hidden}
+  .tag{display:inline-flex;gap:8px;align-items:center;color:var(--rose);font-size:.7rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+  .tag span{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--rose);color:#2b1a2f;font-size:.72rem;letter-spacing:0}
+  .ch h2{font-size:clamp(2rem,6vw,3rem);line-height:1.04;margin-top:10px;color:#fff6ea}
+  .ch p.sub{color:#ddd3ee;line-height:1.75;margin:10px 0 0;max-width:52ch}
+  .btn{border:0;border-radius:999px;padding:14px 26px;font-weight:700;color:#2a1a33;background:linear-gradient(120deg,var(--gold),var(--rose));box-shadow:0 14px 34px #ff9fb840;transition:transform .2s}
+  .btn:active{transform:scale(.96)}
+  @keyframes rise{from{opacity:0;transform:translateY(20px)}}
+  @keyframes beat{15%{transform:scale(1.12)}30%{transform:scale(1)}45%{transform:scale(1.07)}}
+
+  /* 1 · contador */
+  .clock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:22px}
+  .clock div{border:1px solid var(--line);border-radius:18px;padding:16px 6px 12px;background:#ffffff0c;text-align:center}
+  .clock b{display:block;font-family:var(--display);font-weight:700;font-size:clamp(2rem,8vw,2.8rem);line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
+  .clock span{display:block;margin-top:6px;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#b9aedd}
+  .facts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
+  .facts span{font-size:.78rem;padding:8px 13px;border-radius:999px;background:#ffd58a14;border:1px solid #ffd58a33;color:#ffeac4}
+
+  /* 2 · nuestro mes en lunas */
+  .phases{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:22px;position:relative}
+  .phases:before{content:"";position:absolute;left:10%;right:10%;top:34px;height:2px;background:linear-gradient(90deg,#cdbfff55,var(--gold));z-index:0}
+  .ph{position:relative;z-index:1;border:0;background:none;padding:0;display:grid;justify-items:center;gap:6px;color:#d9cfee}
+  .ph i{display:grid;place-items:center;width:58px;height:58px;border-radius:50%;font-style:normal;font-size:1.9rem;background:#1b1533;border:2px solid #ffffff22;transition:transform .3s,border-color .3s,box-shadow .3s}
+  .ph small{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+  .ph.on i{border-color:var(--gold);box-shadow:0 0 26px #ffd58a77;transform:scale(1.12)}
+  .ph.on small{color:var(--gold)}
+  .phbox{margin-top:20px;padding:20px 22px;border-radius:22px;background:#fff6d90f;border:1px solid #ffd58a44;text-align:center;min-height:9.5em}
+  .phbox b{display:block;font-family:var(--hand);font-weight:400;font-size:2rem;color:var(--gold);line-height:1.2}
+  .phbox p{margin:8px auto 0;max-width:46ch;line-height:1.75;color:#f1e9fb}
+  .phbox.pop{animation:rise .5s ease both}
+  @media (max-width:420px){.ph i{width:48px;height:48px;font-size:1.5rem}.phases:before{top:29px}.ph small{font-size:.54rem}}
+
+  /* 3 · corazón de melón */
+  .melon{margin-top:18px}
+  .melon svg{display:block;width:100%;height:auto;overflow:visible}
+  .seed{cursor:pointer;outline:none}
+  .seed path{fill:#fff3df;stroke:#c86a3a;stroke-width:1.2;transition:fill .4s,transform .4s;transform-box:fill-box;transform-origin:center}
+  .seed:not(.open) path{animation:seedb 2.4s ease-in-out infinite;animation-delay:var(--d,0s)}
+  .seed.open path{fill:#e0527a;stroke:#fff;animation:none}
+  .seed:focus-visible path{stroke:var(--gold);stroke-width:3}
+  @keyframes seedb{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+  .melon.full #flesh{filter:drop-shadow(0 0 18px #ffb26b)}
+  .melonmsg{margin-top:14px;min-height:4.4em;text-align:center;font-family:var(--display);font-style:italic;font-size:clamp(1.25rem,4vw,1.5rem);line-height:1.4;color:#fff4ea}
+  .melonmsg small{display:block;font-family:var(--body);font-style:normal;font-size:.66rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--lav);margin-bottom:6px}
+  .melonmsg.pop{animation:rise .45s ease both}
+  .melonend{margin-top:10px;text-align:center;animation:rise .7s ease both}
+  .melonend b{display:block;font-family:var(--hand);font-weight:400;font-size:clamp(2.2rem,7vw,3rem);color:var(--gold);text-shadow:0 0 30px #ffd58a60}
+
+  /* 4 · la carta */
+  .letter{margin-top:22px;background:var(--paper);color:var(--ink);border-radius:8px;padding:clamp(24px,6vw,46px);box-shadow:0 24px 60px #0007;
+    background-image:repeating-linear-gradient(transparent 0 31px,#f0e4dc 31px 32px);background-position:0 20px;position:relative}
+  .letter:after{content:"1";position:absolute;right:18px;top:16px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+    background:radial-gradient(circle at 35% 30%,#ff8a8a,#c8233f 60%,#8f1630);color:#ffe6d0;font-family:var(--display);font-weight:700;font-size:1.4rem;box-shadow:0 4px 10px #0004;transform:rotate(-8deg)}
+  .letter .to{font-family:var(--hand);font-size:2.2rem;color:var(--wine);margin:0 0 6px;padding-right:50px}
+  .letter p{margin:0 0 16px;line-height:2}
+  .letter strong{color:var(--wine)}
+  .letter .sign{font-family:var(--hand);font-size:1.9rem;color:var(--wine);text-align:right;margin:0;line-height:1.3}
+  .letter .ps{margin-top:18px;font-size:.92rem;color:var(--muted)}
+
+  /* 5 · los que vienen */
+  .next{margin-top:20px;text-align:center}
+  .next b{display:block;font-family:var(--display);font-weight:700;font-size:clamp(4rem,16vw,6rem);line-height:.9;color:var(--gold);text-shadow:0 0 50px #ffd58a66;font-variant-numeric:tabular-nums}
+  .next span{display:block;margin-top:8px;font-size:.76rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--lav)}
+  .promises{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:10px}
+  .promises li{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:16px;background:#ffffff0c;border:1px solid var(--line);line-height:1.6;color:#efe7fb}
+  .promises li:before{content:"🌙";flex:none}
+
+  .tapmoon{padding-block:30px 20px;text-align:center}
+  .moonbtn{border:0;padding:0;width:150px;height:150px;border-radius:50%;margin:0 auto;display:block;
+    background:radial-gradient(circle at 38% 36%,#fffdf2 0,#ffe8b5 50%,#ffcf8a 100%);box-shadow:0 0 60px #ffe0a0aa,0 0 140px #ffb87855;animation:glow 3s ease-in-out infinite;transition:transform .15s}
+  .moonbtn:active{transform:scale(.94)}
+  @keyframes glow{50%{box-shadow:0 0 80px #ffe0a0dd,0 0 180px #ffb87877}}
+  .tapmoon h2{font-family:var(--hand);font-weight:400;font-size:clamp(2.4rem,8vw,3.4rem);color:var(--gold);margin-top:18px;text-shadow:0 0 30px #ffd58a55}
+  .tapmoon .say{margin-top:6px;min-height:1.6em;font-family:var(--display);font-style:italic;font-size:1.5rem;color:#fff4ea}
+  .tapmoon .cnt{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--lav)}
+
+  .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));translate:-50% 0;z-index:160;padding:12px 18px;border-radius:999px;background:var(--paper);color:var(--ink);font-weight:700;font-size:.85rem;box-shadow:0 14px 34px #0006;opacity:0;transform:translateY(20px);transition:.35s;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
+  .toast.on{opacity:1;transform:none}
+  footer{text-align:center;padding-block:20px 70px;color:#b8acd3;font-size:.8rem}
+  footer .h{font-family:var(--hand);font-size:1.7rem;color:var(--rose);display:block;margin-bottom:4px}
+  footer a{color:var(--lav)}
+  @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="locked">
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="moonbg" aria-hidden="true"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="floaty" id="floaty" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ───────── apertura ───────── -->
+<div class="intro" id="intro" role="dialog" aria-label="Abre tu carta del primer mes">
+  <button class="skip" id="skip" type="button">Saltar ›</button>
+
+  <div class="stage" id="st1">
+    <div class="to">Para el amorcito de mi vida</div>
+    <div class="env" id="env">
+      <div class="back"></div>
+      <div class="paper"><div>Feliz 1 mes<small>13 · 11 · 2026</small></div></div>
+      <div class="front"></div>
+      <div class="flap"></div>
+      <button class="seal" id="seal" type="button" aria-label="Romper el sello y abrir la carta">1<small>mes</small></button>
+    </div>
+    <div class="hint">Toca el sello para abrir 💌</div>
+  </div>
+
+  <div class="stage moonstage" id="st2" hidden>
+    <canvas id="moonc" width="460" height="460" aria-hidden="true"></canvas>
+    <div class="daycount"><span id="dc">0</span><small id="dcl">días juntos</small></div>
+    <div class="datefly" id="df">13 de octubre</div>
+    <p class="moonnote" id="mn">En un mes la luna da una vuelta completa… y yo me enamoré de ti en cada una de sus fases.</p>
+  </div>
+
+  <div class="stage final" id="st3" hidden>
+    <div class="big1">1<span>mes</span></div>
+    <h2>¡Feliz primer mes, mi amor!</h2>
+    <p>Hoy cumplimos una luna completa juntos, corazón de melón.</p>
+    <button class="btn" id="enter" type="button">Abrir mi cartita 💌</button>
+  </div>
+</div>
+
+<header class="wrap">
+  <span class="date">Viernes 13 de noviembre · nuestro primer mes</span>
+  <div class="ring" aria-hidden="true">
+    <svg viewBox="0 0 150 150"><defs><path id="circ" d="M75 75m-62 0a62 62 0 1 1 124 0a62 62 0 1 1-124 0"/></defs>
+      <text font-family="Montserrat, sans-serif" font-size="8.4" font-weight="700" letter-spacing="2" fill="#cdbfff"><textPath href="#circ">TE AMO · CORAZÓN DE MELÓN · AMORCITO DE MI VIDA ·</textPath></text></svg>
+    <b>1<small>mes</small></b>
+  </div>
+  <h1>Feliz primer mes<em>amorcito de mi vida</em></h1>
+  <p class="lead">Hoy hace un mes me dijiste que sí, y desde entonces todo es más bonito. Esta cartita es para ti, para que hoy sea un día muy especial y nunca se te olvide lo mucho que te amo.</p>
+</header>
+
+<main>
+  <section class="ch wrap">
+    <div class="card">
+      <span class="tag"><span>1</span>Un mes contigo</span>
+      <h2>Llevamos juntos…</h2>
+      <p class="sub">Desde el martes 13 de octubre, cuando me dijiste que sí. Y este reloj no se detiene, igual que lo que siento por ti.</p>
+      <div class="clock" aria-live="off">
+        <div><b id="cD">31</b><span>días</span></div>
+        <div><b id="cH">0</b><span>horas</span></div>
+        <div><b id="cM">0</b><span>minutos</span></div>
+        <div><b id="cS">0</b><span>segundos</span></div>
+      </div>
+      <div class="facts">
+        <span>🌕 1 luna completa</span>
+        <span>💌 10 cartitas</span>
+        <span>🎃 1 primer Halloween</span>
+        <span>🧶 0 nudos sin desatar</span>
+        <span>💗 ∞ te amo</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch wrap">
+    <div class="card">
+      <span class="tag"><span>2</span>Nuestro mes en lunas</span>
+      <h2>De luna nueva a luna llena</h2>
+      <p class="sub">Así se fue llenando nuestra luna este mes. Toca cada una.</p>
+      <div class="phases" id="phases" role="tablist" aria-label="Momentos de nuestro primer mes"></div>
+      <div class="phbox" id="phbox" aria-live="polite"><b id="phT"></b><p id="phP"></p></div>
+    </div>
+  </section>
+
+  <section class="ch wrap">
+    <div class="card">
+      <span class="tag"><span>3</span>Corazón de melón</span>
+      <h2>Mi corazón de melón</h2>
+      <p class="sub">Cada semillita guarda una razón de por qué eres la mujer más maravillosa de mi vida. Tócalas todas.</p>
+      <div class="melon" id="melon">
+        <svg viewBox="0 0 400 240" aria-label="Un melón partido con semillitas en forma de corazón">
+          <defs>
+            <radialGradient id="fl" cx="50%" cy="0%" r="100%"><stop offset="0" stop-color="#ffe0b0"/><stop offset=".55" stop-color="#ffb26b"/><stop offset="1" stop-color="#f08a4b"/></radialGradient>
+            <pattern id="net" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><path d="M0 7h14M7 0v14" stroke="#8a9a55" stroke-width="1.2" opacity=".55"/></pattern>
+          </defs>
+          <path d="M14 20 A186 186 0 0 0 386 20 Z" fill="#c9c98a"/>
+          <path d="M14 20 A186 186 0 0 0 386 20 Z" fill="url(#net)"/>
+          <path d="M28 20 A172 172 0 0 0 372 20 Z" fill="#d8e3a0"/>
+          <path id="flesh" d="M36 20 A164 164 0 0 0 364 20 Z" fill="url(#fl)"/>
+          <path d="M108 20 A92 92 0 0 0 292 20 Z" fill="#ffd79e" opacity=".9"/>
+          <rect x="10" y="14" width="380" height="8" rx="4" fill="#ffe9c9"/>
+          <g id="seeds"></g>
+        </svg>
+      </div>
+      <p class="melonmsg" id="melonmsg" aria-live="polite"><small>0 de 8 semillitas</small>Toca una semillita 🍈</p>
+      <div class="melonend" id="melonend" hidden><b>Por eso eres mi corazón de melón</b></div>
+    </div>
+  </section>
+
+  <section class="ch wrap">
+    <div class="card">
+      <span class="tag"><span>4</span>La carta de nuestro primer mes</span>
+      <h2>Lo que te quiero decir hoy</h2>
+      <article class="letter">
+        <p class="to">Amorcito de mi vida:</p>
+        <p>Hoy hace un mes me dijiste que sí. Un mes. Suena a poquito, pero se siente como si te conociera de toda la vida, como si mi corazón ya supiera desde antes que eras tú.</p>
+        <p>Hoy, más que cualquier otro día, quiero que sepas una cosa: <strong>eres la mujer más maravillosa de mi vida.</strong> No lo digo por decirlo. Lo digo porque te he visto ser valiente, ser dulce, cansarte y aun así seguir adelante, reírte de mis tonterías y tenerme paciencia cuando las cosas se enredan. Cada día contigo me demuestra que elegirte fue lo mejor que he hecho.</p>
+        <p>En este mes aprendimos muchas cosas juntos: que adelantar todo “para yaaaaaa” fue la mejor idea del mundo, que un perdón dicho con el corazón arregla casi todo, que un malentendido no rompe el hilo, y que, aunque a veces estemos lejitos, un mensaje tuyo me puede cambiar el día entero.</p>
+        <p>Gracias por quererme como me quieres. Gracias por cada plática, por cada risa, por cada “te amo” que me llega justo cuando más lo necesito. Gracias por dejarme ser tu novio.</p>
+        <p><strong>Te amo mucho, corazón de melón.</strong> Te amo en tus días buenos y en los pesados, cuando estás feliz y cuando estás cansada, cuando me cuentas todo y cuando no sabes ni cómo decirlo. Te amo como eres.</p>
+        <p>Y este es apenas el primero. Quiero llegar contigo al segundo mes, al sexto, a nuestro primer año y a todos los que vengan. Quiero seguir haciéndote cartitas, seguir sorprendiéndote y seguir aprendiendo a quererte mejor cada día.</p>
+        <p>Feliz primer mes, mi amor. Hoy es tu día, y quiero que lo sientas así: especial, bonito y lleno de amor, porque así eres tú.</p>
+        <p class="sign">Tu novio que te ama con todo el corazón,<br>Gabriel 🤍</p>
+        <p class="ps">P.D. El comité de perritos (Mía, Koda y Luna) aprueba esta carta y también te manda felicidades 🐾</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="ch wrap">
+    <div class="card">
+      <span class="tag"><span>5</span>Por los meses que vienen</span>
+      <h2>Esto apenas empieza</h2>
+      <div class="next"><b id="nxN">30</b><span id="nxL">días para nuestro segundo mes</span></div>
+      <ul class="promises">
+        <li>Prometo seguir eligiéndote todos los días, incluso los difíciles.</li>
+        <li>Prometo hablar contigo cuando algo se enrede, con calma y sin soltar el hilo.</li>
+        <li>Prometo seguir llenando este álbum de cartitas para ti.</li>
+        <li>Prometo cuidarte, admirarte y hacerte sentir la mujer más amada del mundo.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap tapmoon" aria-labelledby="tmT">
+    <button class="moonbtn" id="moonbtn" type="button" aria-label="Tocar la luna"></button>
+    <h2 id="tmT">Toca nuestra luna</h2>
+    <p class="say" id="say" aria-live="polite">Cada toque es un te amo 🌕</p>
+    <p class="cnt" id="cnt"></p>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span class="h">te amo, corazón de melón</span>
+  Hecho para ti el 13 de noviembre de 2026, en nuestro primer mes.<br><a href="../../index.html">← Volver al álbum</a>
+</footer>
+
+<script>
+(()=>{
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $=id=>document.getElementById(id);
+  const dpr=Math.min(devicePixelRatio||1,2);
+  const vib=p=>{try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
+  let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2400);}
+  function hearts(n=14,set=['💗','🤍','💖','✨','🌙']){if(reduce)return;const box=$('floaty');for(let i=0;i<n;i++){const h=document.createElement('span');h.className='heartp';h.textContent=set[i%set.length];
+    h.style.left=Math.random()*100+'vw';h.style.setProperty('--t',(4+Math.random()*3)+'s');h.style.setProperty('--dx',(Math.random()*120-60)+'px');h.style.setProperty('--s',(14+Math.random()*18)+'px');h.style.animationDelay=Math.random()+'s';box.appendChild(h);setTimeout(()=>h.remove(),9000);}}
+
+  /* cielo con estrellitas */
+  const c=$('sky'),x=c.getContext('2d');let stars=[];
+  function size(){c.width=innerWidth*dpr;c.height=innerHeight*dpr;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';
+    stars=Array.from({length:Math.round(innerWidth*innerHeight/5000)},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:(Math.random()*1.3+.3)*dpr,p:Math.random()*6.3,s:.4+Math.random()*1.4}));
+    fx.width=innerWidth*dpr;fx.height=innerHeight*dpr;fx.style.width=innerWidth+'px';fx.style.height=innerHeight+'px';}
+  function draw(t){x.clearRect(0,0,c.width,c.height);for(const s of stars){x.globalAlpha=reduce?.6:.25+.5*Math.abs(Math.sin(s.p+t/1200*s.s));x.fillStyle='#fff';x.beginPath();x.arc(s.x,s.y,s.r,0,6.3);x.fill();}if(!reduce)requestAnimationFrame(draw);}
+
+  /* fuegos artificiales de corazones */
+  const fx=$('fx'),fc=fx.getContext('2d');let parts=[],running=false;
+  const cols=['#ff9fb8','#ffd58a','#ff6f91','#fff1e2','#cdbfff','#e0527a'];
+  function heartPath(g,s){g.beginPath();g.moveTo(0,-s*.2);g.bezierCurveTo(0,-s*.55,-s*.5,-s*.55,-s*.5,-s*.2);g.bezierCurveTo(-s*.5,s*.1,0,s*.3,0,s*.5);g.bezierCurveTo(0,s*.3,s*.5,s*.1,s*.5,-s*.2);g.bezierCurveTo(s*.5,-s*.55,0,-s*.55,0,-s*.2);g.closePath();}
+  function burst(px,py,n=60){if(reduce)return;for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,v=(2+Math.random()*6)*dpr;
+      parts.push({x:px*dpr,y:py*dpr,vx:Math.cos(a)*v,vy:Math.sin(a)*v-2*dpr,s:(8+Math.random()*12)*dpr,c:cols[i%cols.length],l:1,r:Math.random()*6,vr:(Math.random()-.5)*.2});}
+    if(!running){running=true;requestAnimationFrame(tick);}}
+  function tick(){fc.clearRect(0,0,fx.width,fx.height);parts=parts.filter(p=>p.l>0);
+    for(const p of parts){p.x+=p.vx;p.y+=p.vy;p.vx*=.98;p.vy=p.vy*.98+.12*dpr;p.l-=.011;p.r+=p.vr;
+      fc.save();fc.globalAlpha=Math.max(0,p.l);fc.translate(p.x,p.y);fc.rotate(p.r*.3);fc.fillStyle=p.c;heartPath(fc,p.s);fc.fill();fc.restore();}
+    if(parts.length)requestAnimationFrame(tick);else{running=false;fc.clearRect(0,0,fx.width,fx.height);}}
+  function show(){burst(innerWidth*(.2+Math.random()*.6),innerHeight*(.2+Math.random()*.35),50);}
+
+  size();addEventListener('resize',size);requestAnimationFrame(draw);
+
+  /* ───────── apertura ───────── */
+  const mc=$('moonc'),mx=mc.getContext('2d');
+  function drawMoon(f){ /* f: fracción iluminada 0 (nueva) → 1 (llena), creciente */
+    const W=mc.width,r=W*.42;mx.clearRect(0,0,W,W);mx.save();mx.translate(W/2,W/2);
+    mx.fillStyle='#2b2450';mx.beginPath();mx.arc(0,0,r,0,Math.PI*2);mx.fill();
+    const k=1-2*f,g=mx.createRadialGradient(-r*.3,-r*.3,r*.1,0,0,r);g.addColorStop(0,'#fffdf2');g.addColorStop(.55,'#ffe8b5');g.addColorStop(1,'#ffcf8a');
+    mx.fillStyle=g;mx.beginPath();
+    for(let i=0;i<=60;i++){const t=-Math.PI/2+Math.PI*i/60;mx.lineTo(r*Math.cos(t),r*Math.sin(t));}
+    for(let i=0;i<=60;i++){const t=Math.PI/2-Math.PI*i/60;mx.lineTo(k*r*Math.cos(t),r*Math.sin(t));}
+    mx.closePath();mx.fill();
+    mx.globalAlpha=.12*f;mx.fillStyle='#c9a46a';[[-.3,-.2,.12],[.25,.15,.09],[.05,.4,.07],[-.1,.1,.05]].forEach(([a,b,s])=>{mx.beginPath();mx.arc(a*r,b*r,s*r,0,7);mx.fill();});
+    mx.restore();}
+  drawMoon(0);
+
+  const meses=['oct','nov'],start=new Date(2026,9,13);
+  function fmt(d){const dd=new Date(start);dd.setDate(13+d);return dd.getDate()+' de '+(dd.getMonth()===9?'octubre':'noviembre');}
+  let opened=false,finished=false;
+  function stage(from,to){$(from).classList.add('fade');setTimeout(()=>{$(from).hidden=true;$(to).hidden=false;$(to).classList.add('show');},550);}
+  function moonRun(){const T=4200,t0=performance.now();
+    function step(now){const p=Math.min(1,(now-t0)/T),e=1-Math.pow(1-p,2.2),d=Math.round(e*31);
+      drawMoon(e);$('dc').textContent=d;$('dcl').textContent=d===1?'día juntos':'días juntos';$('df').textContent=fmt(d);
+      if(p>.45)$('mn').classList.add('on');
+      if(p<1)requestAnimationFrame(step);else{vib([30,50,30]);setTimeout(()=>finale(),1300);}}
+    requestAnimationFrame(step);}
+  function finale(){if(finished)return;finished=true;stage('st2','st3');setTimeout(()=>{burst(innerWidth/2,innerHeight*.35,90);setTimeout(show,500);setTimeout(show,1000);hearts(20);},600);}
+  function openEnv(){if(opened)return;opened=true;$('env').classList.add('open');vib(25);
+    setTimeout(()=>burst(innerWidth/2,innerHeight*.42,40),500);
+    setTimeout(()=>{stage('st1','st2');setTimeout(moonRun,700);},2200);}
+  function enter(){$('intro').classList.add('gone');document.body.classList.remove('locked');setTimeout(()=>{$('intro').hidden=true;},1200);
+    hearts(26);setTimeout(()=>burst(innerWidth/2,innerHeight*.3,70),300);toast('Feliz primer mes, amorcito 💗');}
+  $('seal').addEventListener('click',openEnv);
+  $('env').addEventListener('click',openEnv);
+  $('enter').addEventListener('click',enter);
+  $('skip').addEventListener('click',()=>{opened=finished=true;enter();});
+  if(reduce){$('st1').hidden=true;$('st3').hidden=false;finished=opened=true;}
+  setTimeout(()=>$('seal').focus({preventScroll:true}),400);
+
+  /* 1 · reloj desde el 13 de octubre */
+  function clock(){const ms=Math.max(0,Date.now()-start.getTime()),s=Math.floor(ms/1000);
+    $('cD').textContent=Math.floor(s/86400);$('cH').textContent=Math.floor(s%86400/3600);$('cM').textContent=Math.floor(s%3600/60);$('cS').textContent=s%60;}
+  clock();setInterval(clock,1000);
+
+  /* 2 · nuestro mes en lunas */
+  const moments=[
+    {m:'🌑',d:'13 oct',t:'Me dijiste que sí',p:'Yo lo tenía pensado para el viernes, pero tú dijiste “adelantamos todo para yaaaaaa”. Ese martes empezó la luna más bonita de mi vida.'},
+    {m:'🌒',d:'27 oct',t:'Aprendimos a perdonarnos',p:'Mi broma no salió bien y tú me dejaste arreglarlo. Ahí supe que contigo hasta un perdón termina en un cielo de estrellas.'},
+    {m:'🌓',d:'31 oct',t:'Nuestro primer Halloween',p:'¿Dulce o beso? Siempre beso. Nuestro primer Halloween juntos, y una semana pesadísima que por fin pudiste soltar.'},
+    {m:'🌔',d:'9 nov',t:'Desenredamos un nudo',p:'Un malentendido quiso enredarnos, pero lo hablamos con calma. El hilo nunca se rompió: salimos más unidos.'},
+    {m:'🌕',d:'13 nov',t:'Luna llena: un mes',p:'Hoy nuestra luna está completa. Luna llena, corazón lleno. Y apenas es la primera de muchas, amorcito de mi vida.'}
+  ];
+  const phs=$('phases');
+  moments.forEach((mo,i)=>{const b=document.createElement('button');b.type='button';b.className='ph';b.setAttribute('role','tab');b.innerHTML='<i>'+mo.m+'</i><small>'+mo.d+'</small>';
+    b.addEventListener('click',()=>pickPh(i,true));phs.appendChild(b);});
+  function pickPh(i,user){[...phs.children].forEach((b,j)=>{b.classList.toggle('on',j===i);b.setAttribute('aria-selected',j===i);});
+    $('phT').textContent=moments[i].t;$('phP').textContent=moments[i].p;const bx=$('phbox');bx.classList.remove('pop');void bx.offsetWidth;bx.classList.add('pop');
+    if(user){vib(10);if(i===4){hearts(16,['🌕','💗','✨']);toast('Luna llena, corazón lleno 🌕');}}}
+  pickPh(4,false);
+
+  /* 3 · corazón de melón */
+  const reasons=[
+    'Porque me haces reír hasta en los días más pesados.',
+    'Porque eres valiente, y vas a ser una paramédica increíble.',
+    'Porque estudias, trabajas y aun así siempre tienes un ratito para mí.',
+    'Porque cuando algo se enreda, eres de las que hablan y lo arreglan.',
+    'Porque eres la más bonita, por dentro y por fuera.',
+    'Porque contigo todo se siente fácil, tranquilo y bonito.',
+    'Porque me dijiste que sí… y quisiste adelantarlo todo para yaaaaaa.',
+    'Porque eres tú. Y contigo me basta para ser feliz.'
+  ];
+  const sg=$('seeds'),NS='http://www.w3.org/2000/svg';let found=0;
+  reasons.forEach((r,i)=>{const a=(14+i*(152/7))*Math.PI/180,rad=i%2?54:72,cx=200+rad*Math.cos(a),cy=20+rad*Math.sin(a)*1.05;
+    const g=document.createElementNS(NS,'g');g.setAttribute('class','seed');g.setAttribute('tabindex','0');g.setAttribute('role','button');g.setAttribute('aria-label','Semillita '+(i+1));
+    g.setAttribute('transform','translate('+cx.toFixed(1)+' '+cy.toFixed(1)+') rotate('+((a*180/Math.PI)-90).toFixed(0)+')');g.style.setProperty('--d',(i*.25)+'s');
+    const p=document.createElementNS(NS,'path');p.setAttribute('d','M0 -3c0-5-8-5-8 0 0 5 8 9 8 11 0-2 8-6 8-11 0-5-8-5-8 0z');g.appendChild(p);
+    const open=()=>{const first=!g.classList.contains('open');g.classList.add('open');if(first)found++;
+      const m=$('melonmsg');m.innerHTML='<small>'+found+' de '+reasons.length+' semillitas</small>'+r;m.classList.remove('pop');void m.offsetWidth;m.classList.add('pop');vib(10);
+      if(first&&found===reasons.length){$('melon').classList.add('full');$('melonend').hidden=false;hearts(24,['🍈','💗','💖','✨']);const bb=$('melon').getBoundingClientRect();burst(bb.left+bb.width/2,bb.top+bb.height*.3,60);toast('¡Todas! Te amo, corazón de melón 🍈');}};
+    g.addEventListener('click',open);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
+    sg.appendChild(g);});
+
+  /* 5 · segundo mes */
+  const today=new Date();today.setHours(0,0,0,0);
+  const months=[new Date(2026,11,13),new Date(2027,0,13),new Date(2027,1,13),new Date(2027,2,13)];
+  const ord=['segundo','tercer','cuarto','quinto'];
+  let ni=months.findIndex(d=>d>=today);if(ni<0)ni=months.length-1;
+  const nl=Math.round((months[ni]-today)/864e5);
+  if(nl===0){$('nxN').textContent='¡Hoy!';$('nxL').textContent='cumplimos nuestro '+ord[ni]+' mes';}
+  else{$('nxN').textContent=nl;$('nxL').textContent=(nl===1?'día':'días')+' para nuestro '+ord[ni]+' mes';}
+
+  /* luna para tocar */
+  const says=['Te amo 💗','Te amo más 🤍','Amorcito de mi vida 🌙','Corazón de melón 🍈','La más bonita ✨','Feliz primer mes 🌕','Eres lo mejor de mi vida 💖','Y los que faltan…'];let tap=0;
+  $('moonbtn').addEventListener('click',e=>{const s=$('say');s.textContent=says[tap%says.length];tap++;$('cnt').textContent=tap===1?'1 te amo':tap+' te amo';vib(12);
+    const r=e.currentTarget.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,tap%5===0?70:24);if(tap%5===0)hearts(12);});
+})();
+</script>
+</body>
+</html>

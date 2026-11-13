@@ -301,7 +301,7 @@
   names.forEach((n,i)=>{const d=new Date(2026,10,9+i),diff=Math.round((d-now)/864e5);
     const b=document.createElement('button');b.type='button';b.className='day'+(diff<0?' past':diff===0?' today':'')+(i===4?' last':'');
     b.innerHTML='<small>'+n+'</small><strong>'+(9+i)+'</strong><em>'+(diff<0?'✓':diff===0?'💌':i===4?'⭐':'🔒')+'</em>';
-    b.addEventListener('click',()=>{if(diff<0)toast('Esa cartita ya está guardada en el álbum 💌');else if(diff===0)toast('Esta es la cartita de hoy 🧶');else if(i===4)toast('El viernes es el más especial… ya verás 🤍');else toast('Esa cartita todavía no está lista 🤭');});
+    b.addEventListener('click',()=>{if(i===4&&diff<=0){location.href='../primer-mes/index.html';return;}if(diff<0)toast('Esa cartita ya está guardada en el álbum 💌');else if(diff===0)toast('Esta es la cartita de hoy 🧶');else if(i===4)toast('El viernes es el más especial… ya verás 🤍');else toast('Esa cartita todavía no está lista 🤭');});
     wk.appendChild(b);});
 
   /* sorpresa */
